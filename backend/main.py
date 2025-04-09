@@ -22,8 +22,8 @@ class DataModel(BaseModel):
     value: float
 
 @app.get("/data")
-async def get_data(skip:int=0, limit:int=0, db:Session=Depends(get_db)):
-    weathers = crud.get_weathers(db, skip=skip, limit=limit)
+async def get_data(skip:int=0, limit:int=1, db:Session=Depends(get_db)):
+    weathers = crud.get_hourly(db, skip=skip, limit=limit)
     return weathers
 
 @app.post("/forecast")

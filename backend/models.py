@@ -1,5 +1,5 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Float, DateTime
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Integer, String, Float, DateTime
+
 
 from database import Base
 
@@ -55,9 +55,11 @@ class Hourly(Base):
     lat = Column(Float)
     lon = Column(Float)
     temp = Column(Float)
+    temp_max = Column(Float, nullable=True)
+    temp_min = Column(Float, nullable=True)
     hum = Column(Float)
-    weather_main = Column(String(255))
-    weather_con = Column(String(255))
+    weather_main = Column(String(255), nullable=True)
+    weather_con = Column(String(255), nullable=True)
     wind_spd = Column(Float)
     cloud = Column(Float)
     rain = Column(Float)
