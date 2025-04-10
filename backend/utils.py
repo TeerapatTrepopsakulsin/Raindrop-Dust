@@ -6,7 +6,38 @@ def schematise_hourly_response(list_of_hourly_model):
         {
             **h.__dict__,
             "timestamp": h.ts,
-            "coordinates": {"lat": h.lat, "lon": h.lon},
+            "coordinates": {
+                "lat": h.lat,
+                "lon": h.lon
+            },
+            "temp": {
+                "average": h.temp,
+                "max": h.temp_max,
+                "min": h.temp_min
+            },
+            "humidity": h.hum,
+            "weather": {
+                "main_condition": h.weather_main,
+                "description": h.weather_con,
+            },
+            "pm_atmospheric": {
+                "pm1_0": h.pm1_0_atm,
+                "pm2_5": h.pm2_5_atm,
+                "pm10_0": h.pm10_0_atm
+            },
+            "pm_factory": {
+                "pm1_0": h.pm1_0,
+                "pm2_5": h.pm2_5,
+                "pm10_0": h.pm10_0
+            },
+            "particles_count": {
+                "pcnt_0_3": h.pcnt_0_3,
+                "pcnt_0_5": h.pcnt_0_5,
+                "pcnt_1_0": h.pcnt_1_0,
+                "pcnt_2_5": h.pcnt_2_5,
+                "pcnt_5_0": h.pcnt_5_0,
+                "pcnt_10_0": h.pcnt_10_0
+            }
         }
         for h in list_of_hourly_model
     ]
