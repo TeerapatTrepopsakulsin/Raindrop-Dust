@@ -1,0 +1,7 @@
+fastapi==0.115.12
+pandas==2.2.3
+pydantic==2.11.3
+python-dotenv==1.1.0
+Requests==2.32.3
+SQLAlchemy==2.0.40
+streamlit==1.44.1
