@@ -6,6 +6,7 @@ from . import models
 from .routes import data, forecast
 
 
+
 models.Base.metadata.create_all(bind=engine)
 
 
@@ -33,3 +34,4 @@ app.include_router(forecast.router)
 @app.get("/")
 async def root():
     return {"message": "Raindrop Dust Web Application!"}
+
