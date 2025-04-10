@@ -1,3 +1,18 @@
+from sqlalchemy import text
+
+
+def schematise_hourly_response(list_of_hourly_model):
+    schematised_data = [
+        {
+            **h.__dict__,
+            "timestamp": h.ts,
+            "coordinates": {"lat": h.lat, "lon": h.lon},
+        }
+        for h in list_of_hourly_model
+    ]
+    return schematised_data
+
+
 DELETE_1 = """
     DELETE FROM hourly
     ORDER BY ts DESC
@@ -79,3 +94,13 @@ GROUP_HOURLY_SQL_STATEMENT = """
         INNER JOIN raindropdust_hourly r ON o.ts_start = r.ts_start
         WHERE o.ts_start > (SELECT MAX(ts) FROM hourly)
 """
+
+
+async def db_groupby_hourly(db):
+    try:
+        db.execute(text(DELETE_1))
+        db.commit()
+        db.execute(text(GROUP_HOURLY_SQL_STATEMENT))
+        db.commit()
+    finally:
+        db.close()
