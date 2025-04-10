@@ -21,7 +21,12 @@ async def lifespan(app: FastAPI):
     engine.dispose()
 
 
-app = FastAPI(lifespan=lifespan)
+app = FastAPI(
+    title="Raindrop Dust",
+    description="FastAPI application providing PM and dust particles data along with environmental elements and weather conditions.",
+    version="0.1.0",
+    lifespan=lifespan
+)
 
 
 @app.get("/data/latest", response_model=list[schemas.HourlyResponse], response_description="Get the latest collected data with the given limit.")
