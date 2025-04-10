@@ -18,15 +18,41 @@ class WeatherCondition(BaseModel):
     description: str
 
 
-class PMFactory(BaseModel):
-    pm1_0: float
-    pm2_5: float
-    pm10_0: float
+class TimeStamp(BaseModel):
+    timestamp: datetime
+
+
+class EnvironmentalElements(BaseModel):
+    coordinates: Coordinates
+    temp: Temperature
+    humidity: float
+    light: float
+    weather: WeatherCondition
+    wind_spd: float
+    cloud: float
+    rain: float
+
+
+class AQI(BaseModel):
+    aqi: float
+
 
 class PMAtmospheric(BaseModel):
     pm1_0: float
     pm2_5: float
     pm10_0: float
+
+
+class PMFactory(BaseModel):
+    pm1_0: float
+    pm2_5: float
+    pm10_0: float
+
+
+class PM(BaseModel):
+    pm_atmospheric: PMAtmospheric
+    pm_factory: PMFactory
+
 
 class ParticlesCount(BaseModel):
     pcnt_0_3: float
@@ -37,20 +63,11 @@ class ParticlesCount(BaseModel):
     pcnt_10_0: float
 
 
-class Hourly(BaseModel):
-    timestamp: datetime
-    coordinates: Coordinates
-    temp: Temperature
-    humidity: float
-    light: float
-    weather: WeatherCondition
-    wind_spd: float
-    cloud: float
-    rain: float
-    aqi: float
-    pm_atmospheric: PMAtmospheric
-    pm_factory: PMFactory
+class Particles(BaseModel):
     particles_count: ParticlesCount
+
+
+class HourlyResponse(Particles, PM, AQI, EnvironmentalElements, TimeStamp):
 
     model_config = {
         "json_schema_extra": {
@@ -101,3 +118,15 @@ class Hourly(BaseModel):
             ]
         }
     }
+
+
+class PMResponse(PM, TimeStamp):
+    pass
+
+
+class AQIResponse(AQI, TimeStamp):
+    pass
+
+
+class ParticlesResponse(Particles, TimeStamp):
+    pass
