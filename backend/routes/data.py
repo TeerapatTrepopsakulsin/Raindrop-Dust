@@ -3,6 +3,7 @@ from .. import schemas, crud
 from sqlalchemy.orm import Session
 from ..database import get_db
 
+
 router = APIRouter(
     prefix="/data",
     tags=["data"],
@@ -20,6 +21,14 @@ async def get_latest_data(limit:int=1, db: Session = Depends(get_db)):
 
 @router.get("/", response_model=list[schemas.HourlyResponse])
 async def get_data(start_date: str | None = None, end_date: str | None = None, skip:int=0, limit:int=1, db:Session=Depends(get_db)):
+    """ Return records response of the data, sorting from the latest record.
+
+    :param start_date: yyyy-MM-dd, indicate the beginning of the period/interval (Inclusive)
+    :param end_date: yyyy-MM-dd, indicate the ending of the period/interval (Exclusive)
+    :param skip: number of records to skip
+    :param limit: number of records to return
+    :param db: Session
+    """
     data = crud.get_hourly(db, start_date=start_date, end_date=end_date, skip=skip, limit=limit)
     return data
 
@@ -58,8 +67,8 @@ async def get_summary(period: str | None = None, date: str | None = None, db: Se
 async def get_custom_summary(start_date: str | None = None, end_date: str | None = None, db: Session = Depends(get_db)):
     """ Return a descriptive summary response of the data.
 
-    :param start_date: indicate the beginning of the summary period/interval (Inclusive)
-    :param end_date: indicate the ending of the summary period/interval (Inclusive)
+    :param start_date: yyyy-MM-dd, indicate the beginning of the summary period/interval (Inclusive)
+    :param end_date: yyyy-MM-dd, indicate the ending of the summary period/interval (Exclusive)
     :param db: Session
     """
     pass

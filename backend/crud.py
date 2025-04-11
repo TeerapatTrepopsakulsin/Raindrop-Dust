@@ -15,7 +15,7 @@ def get_weathers(db: Session, skip:int=0, limit:int=100):
 def get_hourly(db: Session, start_date=None, end_date=None, skip:int=0, limit:int=1):
     query = db.query(Hourly)
     query = query.filter(Hourly.ts >= start_date) if start_date else query
-    query = query.filter(Hourly.ts <= end_date) if end_date else query
+    query = query.filter(Hourly.ts < end_date) if end_date else query
     query = query.order_by(Hourly.ts.desc())
     query = query.offset(skip)
     query = query.limit(limit) if limit != -1 else query
