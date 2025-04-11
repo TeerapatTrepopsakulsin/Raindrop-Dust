@@ -7,17 +7,24 @@ This project explores the connection between PM 2.5 and environmental variables 
 ```
 
 ## HOW TO RUN
+
+### Backend
 ```
-cd backend
+uvicorn backend.main:app --host 0.0.0.0 --port 8000 --reload --workers 1
 ```
 ```
-uvicorn main:app --reload
+http://localhost:8000/
 ```
-## Backend
-```
-http://localhost:8000
-```
-## Swagger UI
+**Swagger UI**
 ```
 http://localhost:8000/docs
 ```
+
+### Frontend
+```
+streamlit run frontend/app.py
+```
+```
+http://localhost:8501/
+```
+

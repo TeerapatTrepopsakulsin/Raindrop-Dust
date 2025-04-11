@@ -94,13 +94,13 @@ class HourlyResponse(Particles, PM, AQI, EnvironmentalElements, TimeStamp):
                     "rain": "Total Rainfall, mm",
                     "aqi": "Air Quality Index",
                     "pm_atmospheric": {
-                        "description": "Particulate Matter concentration μ g/m3 (atmospheric environment)",
+                        "description": "Particulate Matter concentration μg/m3 (atmospheric environment)",
                         "pm1_0": "PM 1.0",
                         "pm2_5": "PM 2.5",
                         "pm10_0": "PM 10"
                     },
                     "pm_factory": {
-                        "description": "Particulate Matter concentration μ g/m3 (factory environment)",
+                        "description": "Particulate Matter concentration μg/m3 (factory environment)",
                         "pm1_0": "PM 1.0",
                         "pm2_5": "PM 2.5",
                         "pm10_0": "PM 10"
@@ -121,12 +121,69 @@ class HourlyResponse(Particles, PM, AQI, EnvironmentalElements, TimeStamp):
 
 
 class PMResponse(PM, TimeStamp):
-    pass
+
+    model_config = {
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "timestamp": "Timestamp",
+                    "pm_atmospheric": {
+                        "description": "Particulate Matter concentration μg/m3 (atmospheric environment)",
+                        "pm1_0": "PM 1.0",
+                        "pm2_5": "PM 2.5",
+                        "pm10_0": "PM 10"
+                    },
+                    "pm_factory": {
+                        "description": "Particulate Matter concentration μg/m3 (factory environment)",
+                        "pm1_0": "PM 1.0",
+                        "pm2_5": "PM 2.5",
+                        "pm10_0": "PM 10"
+                    }
+                }
+            ]
+        }
+    }
 
 
 class AQIResponse(AQI, TimeStamp):
-    pass
+
+    model_config = {
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "timestamp": "Timestamp",
+                    "aqi": "Air Quality Index"
+                }
+            ]
+        }
+    }
 
 
 class ParticlesResponse(Particles, TimeStamp):
-    pass
+
+    model_config = {
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "timestamp": "Timestamp",
+                    "particles_count": {
+                        "description": "Particle count in 0.1 liter or air",
+                        "pcnt_0_3": "Diameter beyond 0.3 um",
+                        "pcnt_0_5": "Diameter beyond 0.5 um",
+                        "pcnt_1_0": "Diameter beyond 1 um",
+                        "pcnt_2_5": "Diameter beyond 2.5 um",
+                        "pcnt_5_0": "Diameter beyond 5 um",
+                        "pcnt_10_0": "Diameter beyond 10 um"
+                    }
+                }
+            ]
+        }
+    }
+
+
+class SummaryResponse(BaseModel):
+    start_time: TimeStamp
+    end_time: TimeStamp
+    average: HourlyResponse
+    max: HourlyResponse
+    min: HourlyResponse
