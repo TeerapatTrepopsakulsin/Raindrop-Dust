@@ -8,10 +8,7 @@ This project explores the connection between PM 2.5 and environmental variables 
 
 ## HOW TO RUN
 ```
-cd backend
-```
-```
-uvicorn main:app --reload
+uvicorn backend.main:app --host 0.0.0.0 --port 8000 --reload --workers 1
 ```
 ## Backend
 ```
