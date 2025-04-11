@@ -42,11 +42,24 @@ async def get_particle(start_date: str | None = None, end_date: str | None = Non
     return data
 
 
-@router.get("/summary") #TODO response_model
-async def get_summary(db: Session = Depends(get_db)):
-    pass
+@router.get("/summary") # TODO the response_model should be SummaryResponse not list[SummaryResponse], so do your best
+async def get_summary(period: str | None = None, date: str | None = None, db: Session = Depends(get_db)):
+    """ Return a descriptive summary response of the data.
+
+    :param period: weekly or daily, indicate the summary period/interval
+    :param date: yyyy-MM-dd, the date that will be included in the summary response
+    :param db: Session
+    """
+    data = crud.get_summary(db)
+    return data
 
 
-@router.get("/summary/custom") #TODO response_model
-async def get_custom_summary(db: Session = Depends(get_db)):
+@router.get("/summary/custom") # TODO response model same as /summary
+async def get_custom_summary(start_date: str | None = None, end_date: str | None = None, db: Session = Depends(get_db)):
+    """ Return a descriptive summary response of the data.
+
+    :param start_date: indicate the beginning of the summary period/interval (Inclusive)
+    :param end_date: indicate the ending of the summary period/interval (Inclusive)
+    :param db: Session
+    """
     pass
