@@ -1,4 +1,8 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from .. import schemas
+from sqlalchemy.orm import Session
+from ..database import get_db
+from ..predictor import Predictor
 
 
 router = APIRouter(
@@ -10,7 +14,13 @@ router = APIRouter(
 )
 
 
-@router.post("/")
-async def forecast():
+@router.get("/1day")
+async def forecast_1day(limit:int=1, db: Session = Depends(get_db)):
+    forecast = Predictor().predict("pm2_5_atm_lead3d")
+    return forecast
+
+
+@router.get("/3day", response_model=list[schemas.ForecastResponse])
+async def forecast_3day(limit:int=1, db: Session = Depends(get_db)):
     # TODO: Implement forecasting logic
     return {"forecast": "result"}
