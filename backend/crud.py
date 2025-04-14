@@ -5,15 +5,21 @@ from .utils import schematise_hourly_response
 
 
 def get_raw_primary(db: Session, limit:int=-1):
-    return db.query(KidBright).limit(limit).all()
+    query = db.query(KidBright)
+    query = query.limit(limit) if limit != -1 else query
+    return query.all()
 
 
 def get_raw_secondary(db: Session, limit:int=-1):
-    return db.query(Weather).limit(limit).all()
+    query = db.query(Weather)
+    query = query.limit(limit) if limit != -1 else query
+    return query.all()
 
 
 def get_raw_hourly(db: Session, limit:int=-1):
-    return db.query(Hourly).limit(limit).all()
+    query = db.query(Hourly)
+    query = query.limit(limit) if limit != -1 else query
+    return query.all()
 
 
 def get_hourly(db: Session, start_date=None, end_date=None, skip:int=0, limit:int=1):
