@@ -4,12 +4,16 @@ from .models import Weather, KidBright, Hourly
 from .utils import schematise_hourly_response
 
 
-def get_weather(db: Session, _id: int):
-    return db.query(Weather).filter(Weather.id == _id).first()
+def get_raw_primary(db: Session, limit:int=-1):
+    return db.query(KidBright).limit(limit).all()
 
 
-def get_weathers(db: Session, skip:int=0, limit:int=100):
-    return db.query(Weather).offset(skip).limit(limit).all()
+def get_raw_secondary(db: Session, limit:int=-1):
+    return db.query(Weather).limit(limit).all()
+
+
+def get_raw_hourly(db: Session, limit:int=-1):
+    return db.query(Hourly).limit(limit).all()
 
 
 def get_hourly(db: Session, start_date=None, end_date=None, skip:int=0, limit:int=1):
