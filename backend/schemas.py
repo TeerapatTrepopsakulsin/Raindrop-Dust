@@ -187,3 +187,4 @@ class SummaryResponse(BaseModel):
     average: HourlyResponse
     max: HourlyResponse
     min: HourlyResponse
+
