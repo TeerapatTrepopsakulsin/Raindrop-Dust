@@ -5,3 +5,4 @@ python-dotenv==1.1.0
 Requests==2.32.3
 SQLAlchemy==2.0.40
 streamlit==1.44.1
+plotly==6.0.1
