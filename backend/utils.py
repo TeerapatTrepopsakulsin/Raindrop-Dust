@@ -1,7 +1,7 @@
 from sqlalchemy import text
 
 
-def schematise_hourly_response(list_of_hourly_model):
+def schematise_hourly_response(list_of_hourly):
     schematised_data = [
         {
             **h.__dict__,
@@ -39,7 +39,7 @@ def schematise_hourly_response(list_of_hourly_model):
                 "pcnt_10_0": h.pcnt_10_0
             }
         }
-        for h in list_of_hourly_model
+        for h in list_of_hourly
     ]
     return schematised_data
 
@@ -51,13 +51,23 @@ DELETE_1 = """
 """
 
 GROUP_HOURLY_SQL_STATEMENT = """
-    INSERT INTO hourly (ts, lat, lon, temp, temp_max, temp_min, hum, weather_main, weather_con,
-                            wind_spd, cloud, rain, light, aqi, pm1_0, pm2_5, pm10_0,
-                            pm1_0_atm, pm2_5_atm, pm10_0_atm, pcnt_0_3, pcnt_0_5,
-                            pcnt_1_0, pcnt_2_5, pcnt_5_0, pcnt_10_0)
+    INSERT INTO hourly (ts, lat, lon, temp, temp_max, temp_min, hum,
+                        weather_main, weather_con, wind_spd, cloud,
+                        rain, light, aqi, pm1_0, pm2_5, pm10_0,
+                        pm1_0_atm, pm2_5_atm, pm10_0_atm, pcnt_0_3,
+                        pcnt_0_5, pcnt_1_0, pcnt_2_5, pcnt_5_0, pcnt_10_0)
         WITH openweather_hourly AS (
             SELECT
-                DATE_ADD('2025-01-01 00:00:00', INTERVAL FLOOR(TIMESTAMPDIFF(HOUR, '2025-01-01 00:00:00', ts)) * 1 HOUR) AS ts_start,
+                DATE_ADD(
+                    '2025-01-01 00:00:00',
+                    INTERVAL FLOOR(
+                        TIMESTAMPDIFF(
+                            HOUR,
+                            '2025-01-01 00:00:00',
+                            ts
+                        )
+                    ) * 1 HOUR
+                ) AS ts_start,
                 AVG(lat) AS lat,
                 AVG(lon) AS lon,
                 AVG(temp) AS temp,
@@ -72,7 +82,16 @@ GROUP_HOURLY_SQL_STATEMENT = """
         ),
         raindropdust_hourly AS (
             SELECT
-                DATE_ADD('2025-01-01 00:00:00', INTERVAL FLOOR(TIMESTAMPDIFF(HOUR, '2025-01-01 00:00:00', ts)) * 1 HOUR) AS ts_start,
+                DATE_ADD(
+                    '2025-01-01 00:00:00',
+                    INTERVAL FLOOR(
+                        TIMESTAMPDIFF(
+                            HOUR,
+                            '2025-01-01 00:00:00',
+                            ts
+                        )
+                    ) * 1 HOUR
+                ) AS ts_start,
                 AVG(temp) AS temp,
                 MAX(temp) AS temp_max,
                 MIN(temp) AS temp_min,
