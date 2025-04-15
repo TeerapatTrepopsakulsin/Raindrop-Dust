@@ -59,7 +59,7 @@ async def get_summary(period: str | None = None, date: str | None = None, db: Se
     :param date: yyyy-MM-dd, the date that will be included in the summary response
     :param db: Session
     """
-    data = crud.get_summary(db, period=period, date=date)
+    data = crud.get_summary(db, period=period, date=date, sum_type=0)
     return data
 
 
@@ -71,5 +71,5 @@ async def get_custom_summary(start_date: str | None = None, end_date: str | None
     :param end_date: yyyy-MM-dd, indicate the ending of the summary period/interval (Exclusive)
     :param db: Session
     """
-    data = crud.get_summary(db, start_date=start_date, end_date=end_date)
+    data = crud.get_summary(db, start_date=start_date, end_date=end_date, sum_type=1)
     return data
