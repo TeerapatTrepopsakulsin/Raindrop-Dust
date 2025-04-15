@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from .database import SessionLocal, engine
 from .utils import db_groupby_hourly
 from . import models
-from .routes import data, forecast
+from .routes import data, forecast, raw
 
 
 
@@ -29,9 +29,9 @@ app = FastAPI(
 
 app.include_router(data.router)
 app.include_router(forecast.router)
+app.include_router(raw.router)
 
 
 @app.get("/")
 async def root():
-    return {"message": "Raindrop Dust Web Application!"}
-
+    return {"message": "Raindrop Dust API!"}
