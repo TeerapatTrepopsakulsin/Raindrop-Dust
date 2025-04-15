@@ -37,6 +37,11 @@ class AQI(BaseModel):
     aqi: float
 
 
+class PMAtmosphericShort(BaseModel):
+    pm2_5: float
+    pm10_0: float
+
+
 class PMAtmospheric(BaseModel):
     pm1_0: float
     pm2_5: float
@@ -187,3 +192,19 @@ class SummaryResponse(BaseModel):
     average: HourlyResponse
     max: HourlyResponse
     min: HourlyResponse
+
+
+class ForecastResponse(PMAtmosphericShort, AQI, TimeStamp):
+
+    model_config = {
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "timestamp": "Timestamp",
+                    "aqi": "AQI at the corresponding timestamp",
+                    "pm2_5": "PM 2.5 concentration at the corresponding timestamp",
+                    "pm10_0": "PM 10 concentration at the corresponding timestamp"
+                }
+            ]
+        }
+    }
