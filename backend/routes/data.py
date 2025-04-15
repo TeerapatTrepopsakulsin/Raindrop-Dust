@@ -19,7 +19,7 @@ async def get_latest_data(limit:int=1, db: Session = Depends(get_db)):
     return data
 
 
-@router.get("/", response_model=list[schemas.HourlyResponse])
+@router.get("", response_model=list[schemas.HourlyResponse])
 async def get_data(start_date: str | None = None, end_date: str | None = None, skip:int=0, limit:int=1, db:Session=Depends(get_db)):
     """ Return records response of the data, sorting from the latest record.
 

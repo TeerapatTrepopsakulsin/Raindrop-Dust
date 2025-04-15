@@ -35,4 +35,3 @@ app.include_router(raw.router)
 @app.get("/")
 async def root():
     return {"message": "Raindrop Dust API!"}
-
