@@ -53,8 +53,6 @@ pmr_data = [
 snd_df = pd.DataFrame(snd_data,  columns=snd_col)
 pmr_df = pd.DataFrame(pmr_data, columns=pmr_col)
 db.close()
-# print(snd_df)
-# print(pmr_df)
 
 
 # Identify outliers using IQR method
@@ -349,19 +347,54 @@ class Predictor:
     model = None
 
     @classmethod
+    def get_1day_prediction(cls):
+        pm2_5 = cls.predict("pm2_5_atm_lead1d")
+        pm10_0 = cls.predict("pm10_0_atm_lead1d")
+        aqi = cls.predict("aqi_lead1d")
+        df = pd.merge(pm2_5, pm10_0, on='ts', how='inner')
+        df = pd.merge(df, aqi, on='ts', how='inner')
+        df.rename(columns={
+            'ts': 'timestamp',
+            'pm2_5_atm_lead1d': 'pm2_5',
+            'pm10_0_atm_lead1d': 'pm10_0',
+            'aqi_lead1d': 'aqi'
+        }, inplace=True)
+        return df.to_dict('records')
+
+    @classmethod
+    def get_3day_prediction(cls):
+        pm2_5 = cls.predict("pm2_5_atm_lead3d")
+        pm10_0 = cls.predict("pm10_0_atm_lead3d")
+        aqi = cls.predict("aqi_lead3d")
+        df = pd.merge(pm2_5, pm10_0, on='ts', how='inner')
+        df = pd.merge(df, aqi, on='ts', how='inner')
+        df.rename(columns={
+            'ts': 'timestamp',
+            'pm2_5_atm_lead3d': 'pm2_5',
+            'pm10_0_atm_lead3d': 'pm10_0',
+            'aqi_lead3d': 'aqi'
+        }, inplace=True)
+        return df.to_dict('records')
+
+    @classmethod
     def predict(cls, target):
+        if "3d" in target:
+            days_pred = 3
+        else:
+            days_pred = 1
+
         cls.set_model(target)
 
         # Preprocess Test (for Prediction)
         for_predict_df = cls.df.copy()
         for_predict_df.drop(target_features, axis=1, inplace=True)
         for_predict_df['ts'] = for_predict_df['ts'].dt.to_timestamp()
-        for_predict_df = for_predict_df[for_predict_df['ts'] >= (pd.Timestamp.now() - pd.Timedelta(days=3))]
+        for_predict_df = for_predict_df[for_predict_df['ts'] >= (pd.Timestamp.now() - pd.Timedelta(days=days_pred))]
 
         for_predict_df.dropna(inplace=True)
 
         prediction = pd.DataFrame()
-        prediction['ts'] = for_predict_df.pop('ts') + pd.Timedelta(days=3)
+        prediction['ts'] = for_predict_df.pop('ts') + pd.Timedelta(days=days_pred)
 
         X = for_predict_df.values
 
@@ -373,7 +406,7 @@ class Predictor:
         prediction.reset_index(inplace=True)
         prediction.drop('index', axis=1, inplace=True)
 
-        return prediction.transpose()
+        return prediction
 
     @classmethod
     def set_model(cls, target):

@@ -14,13 +14,15 @@ router = APIRouter(
 )
 
 
-@router.get("/1day")
-async def forecast_1day(limit:int=1, db: Session = Depends(get_db)):
-    forecast = Predictor().predict("pm2_5_atm_lead3d")
+@router.get("/1day", response_model=list[schemas.ForecastResponse])
+async def forecast_1day(limit:int=-1, db: Session = Depends(get_db)):
+    forecast = Predictor.get_1day_prediction()
+    forecast = forecast[:limit] if limit != -1 else forecast
     return forecast
 
 
 @router.get("/3day", response_model=list[schemas.ForecastResponse])
-async def forecast_3day(limit:int=1, db: Session = Depends(get_db)):
-    # TODO: Implement forecasting logic
-    return {"forecast": "result"}
+async def forecast_3day(limit:int=-1, db: Session = Depends(get_db)):
+    forecast = Predictor.get_3day_prediction()
+    forecast = forecast[:limit] if limit != -1 else forecast
+    return forecast
