@@ -53,11 +53,11 @@ def get_summary(db: Session, start_date=None, end_date=None, period=None, date=N
         date = start_date
 
     query = db.query(Hourly)
-    query = query.filter(Hourly.ts >= date) if date else query
-    query = query.filter(Hourly.ts < end_time) if end_time else query
+    query = query.filter(Hourly.ts >= date)
+    query = query.filter(Hourly.ts < end_time)
 
-    max_record = query.order_by(Hourly.ts.desc()).limit(1).all()
-    min_record = query.order_by(Hourly.ts.asc()).limit(1).all()
+    max_record = query.order_by(Hourly.rain.desc()).limit(1).all()
+    min_record = query.order_by(Hourly.rain.asc()).limit(1).all()
 
     mean_query = db.query(
         func.round(func.avg(Hourly.temp), 4).label("temp"),
@@ -67,7 +67,7 @@ def get_summary(db: Session, start_date=None, end_date=None, period=None, date=N
         func.round(func.avg(Hourly.light), 4).label("light"),
         func.round(func.avg(Hourly.wind_spd), 4).label("wind_spd"),
         func.round(func.avg(Hourly.cloud), 4).label("cloud"),
-        func.round(func.avg(Hourly.rain), 4).label("rain"),
+        func.round(func.sum(Hourly.rain), 4).label("rain"),
         func.round(func.avg(Hourly.aqi), 4).label("aqi"),
         func.round(func.avg(Hourly.pm1_0_atm), 4).label("pm1_0_atm"),
         func.round(func.avg(Hourly.pm2_5_atm), 4).label("pm2_5_atm"),
@@ -83,7 +83,7 @@ def get_summary(db: Session, start_date=None, end_date=None, period=None, date=N
         func.round(func.avg(Hourly.pcnt_10_0), 4).label("pcnt_10_0")
     )
 
-    mean_result = mean_query.filter(Hourly.ts >= date).first() if date else mean_query.first()
+    mean_result = mean_query.filter(Hourly.ts >= date).filter(Hourly.ts < end_time).first()
 
     class DummyHourly:
         def __init__(self, **kwargs):
