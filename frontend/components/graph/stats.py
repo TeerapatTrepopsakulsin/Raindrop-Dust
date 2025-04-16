@@ -1,5 +1,5 @@
 import numpy as np
-from frontend.utils.dataframe import df
+from frontend.utils.dataframe import df, latest_df, today_df, week_df
 
 
 ### The pm 2.5 atm level group by weather condition and weather main
@@ -51,3 +51,12 @@ numerical = [
 
 ### Correlation of numerical attributes
 corr = df[numerical].corr()
+
+### Today
+# Summary
+latest = latest_df.copy()
+
+today = today_df.describe()
+
+### This Week
+week = week_df.describe()
