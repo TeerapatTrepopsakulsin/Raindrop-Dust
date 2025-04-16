@@ -1,27 +1,21 @@
-import os
 import numpy as np
-import requests
 import pandas as pd
-from dotenv import load_dotenv
 from sklearn.preprocessing import OneHotEncoder
+from .api import get_api_res
 
-
-# Load env
-load_dotenv()
-BASE_URL = os.getenv("BASE_URL")
 
 # Get Primary table
-response = requests.get(f"{BASE_URL}/raw/primary?limit=-1")
+response = get_api_res("/raw/primary?limit=-1")
 data = response.json()
 pmr_df = pd.DataFrame(data)
 
 # Get Primary table
-response = requests.get(f"{BASE_URL}/raw/secondary?limit=-1")
+response = get_api_res("/raw/secondary?limit=-1")
 data = response.json()
 snd_df = pd.DataFrame(data)
 
 # Get Hourly table
-response = requests.get(f"{BASE_URL}/raw/hourly?limit=-1")
+response = get_api_res("/raw/hourly?limit=-1")
 data = response.json()
 hour_df = pd.DataFrame(data)
 
