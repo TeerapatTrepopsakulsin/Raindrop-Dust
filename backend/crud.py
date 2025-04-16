@@ -39,12 +39,15 @@ def get_hourly(db: Session, start_date=None, end_date=None, skip:int=0, limit:in
     return hourly
 
 
-def get_summary(db: Session, start_date=None, end_date=None, period="daily", date=None, sum_type=None):
+def get_summary(db: Session, start_date=None, end_date=None, period=None, date=None, sum_type=None):
     if sum_type == 0:
         if date is None:
             date = db.query(Hourly.ts).order_by(Hourly.ts.asc()).limit(1).scalar()
         else:
             date = datetime.fromisoformat(date)
+
+        if period is None:
+            period = "daily"
 
         if period == "daily":
             end_time = date + timedelta(days=1)
@@ -55,7 +58,6 @@ def get_summary(db: Session, start_date=None, end_date=None, period="daily", dat
     elif sum_type == 1:
         if end_date is None:
             end_date = db.query(Hourly.ts).order_by(Hourly.ts.asc()).limit(1).scalar()
-
         if start_date is None:
             start_date = db.query(Hourly.ts).order_by(Hourly.ts.desc()).limit(1).scalar()
 
