@@ -110,19 +110,6 @@ def preprocessing(primary: pd.DataFrame, secondary: pd.DataFrame) -> pd.DataFram
 
     df.reset_index(drop=True, inplace=True)
 
-    # Encoding
-
-    original_categorical = ["weather_main", "weather_con", "day_of_week"]
-
-    encoder = OneHotEncoder(sparse_output=False, handle_unknown='ignore')
-
-    encoded = encoder.fit_transform(df[original_categorical]).astype(int)
-    encoded_df = pd.DataFrame(encoded, columns=encoder.get_feature_names_out(original_categorical))
-    encoded_df.reset_index(drop=True, inplace=True)
-
-    df = pd.concat([df, encoded_df], axis=1)
-    df.drop(original_categorical, axis=1, inplace=True)
-
     # Cyclical encoding
     df['hour'] = np.sin(2 * np.pi * df['hour'] / 24)
 
@@ -136,7 +123,6 @@ def preprocessing(primary: pd.DataFrame, secondary: pd.DataFrame) -> pd.DataFram
 df = preprocessing(primary=pmr_df, secondary=snd_df)
 
 # Current data
-latest_df = df.iloc[-1]
 
 today = pd.Timestamp.today()
 today_df = df[df['ts'].dt.normalize() == today.normalize()]
