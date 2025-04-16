@@ -126,9 +126,19 @@ def preprocessing(primary: pd.DataFrame, secondary: pd.DataFrame) -> pd.DataFram
     # Cyclical encoding
     df['hour'] = np.sin(2 * np.pi * df['hour'] / 24)
 
+    # Convert timestamp
     df['ts'] = df['ts'].dt.to_timestamp()
 
     return df
 
 
+# Finalised data
 df = preprocessing(primary=pmr_df, secondary=snd_df)
+
+# Current data
+latest_df = df.iloc[-1]
+
+today = pd.Timestamp.today()
+today_df = df[df['ts'].dt.normalize() == today.normalize()]
+
+week_df = df[df['ts'] >= today - pd.Timedelta(days=7)]
