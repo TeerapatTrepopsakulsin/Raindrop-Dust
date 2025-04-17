@@ -64,7 +64,30 @@ pm_ts_week = px.line(
 forecast_1d_df = forecast_1d_df.rename(columns={"aqi": "AQI", "pm2_5": "PM 2.5", "pm10_0": "PM 10"})
 forecast_3d_df = forecast_3d_df.rename(columns={"aqi": "AQI", "pm2_5": "PM 2.5", "pm10_0": "PM 10"})
 
+# 1-day
+pm_forecast1d = px.line(
+    forecast_1d_df,
+    x='timestamp',
+    y=["PM 2.5", "PM 10"],
+    title='Particulate Matter Forecast for the next day',
+    labels={'timestamp': 'Timestamp',
+            'value': 'Particulate Matter concentration (µg/m³)',
+            'variable': 'PM Type'},
+    width=1300,
+    height=450
+)
 
+aqi_forecast1d = px.line(
+    forecast_1d_df,
+    x='timestamp',
+    y='AQI',
+    title='AQI Forecast for the next day',
+    labels={'timestamp': 'Timestamp'},
+    width=1300,
+    height=450
+)
+
+# 3-day
 pm_forecast3d = px.line(
     forecast_3d_df,
     x='timestamp',
