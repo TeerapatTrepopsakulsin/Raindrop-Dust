@@ -27,8 +27,8 @@ with latest_tab:
 
     # Row 2
     col1, col2, col3 = st.columns(3)
-    col1.metric("Average temperature", f"{latest_df['temp_pmr']:.2f} °C",
-                f"{delta_df['temp_pmr']:.2f}", delta_color="inverse")
+    col1.metric("Average temperature", f"{latest_df['temp']:.2f} °C",
+                f"{delta_df['temp']:.2f}", delta_color="inverse")
     col2.metric("Minimum temperature", f"{latest_df['min_temp']:.2f} °C",
                 f"{delta_df['min_temp']:.2f}", delta_color="inverse")
     col3.metric("Maximum temperature", f"{latest_df['max_temp']:.2f} °C",
@@ -36,7 +36,7 @@ with latest_tab:
 
     # Row 3
     col1, col2, col3 = st.columns(3)
-    col1.metric("Humidity", f"{latest_df['hum_pmr']:.2f} %", f"{delta_df['hum_pmr']:.2f}", delta_color="inverse")
+    col1.metric("Humidity", f"{latest_df['hum']:.2f} %", f"{delta_df['hum']:.2f}", delta_color="inverse")
     col2.metric("Light", f"{latest_df['light']:.2f} lux", f"{delta_df['light']:.2f}", delta_color="inverse")
     col3.metric("Air Quality Index", f"{latest_df['aqi']:.2f}", f"{delta_df['aqi']:.2f}", delta_color="inverse")
 
@@ -71,6 +71,7 @@ with latest_tab:
                 delta_color="inverse")
 
 with today_tab:
+    st.dataframe(graph.line_graph.df)
     st.subheader("Today's Statistics")
 
     st.plotly_chart(graph.line_graph.aqi_ts_today, use_container_width=True)

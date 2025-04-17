@@ -121,6 +121,10 @@ def preprocessing(primary: pd.DataFrame, secondary: pd.DataFrame) -> pd.DataFram
 
 # Finalised data
 df = preprocessing(primary=pmr_df, secondary=snd_df)
+df.rename(columns={
+    "temp_pmr": "temp",
+    "hum_pmr": "hum"
+}, inplace=True)
 
 # Current data
 

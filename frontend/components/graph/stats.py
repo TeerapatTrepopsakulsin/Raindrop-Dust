@@ -50,10 +50,10 @@ numerical = [
 ]
 
 show_col = [
-    "temp_pmr",
+    "temp",
     "min_temp",
     "max_temp",
-    "hum_pmr",
+    "hum",
     "light",
     "aqi",
     "pm1_0_atm",
