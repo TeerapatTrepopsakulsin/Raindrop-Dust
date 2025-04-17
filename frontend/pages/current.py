@@ -71,7 +71,6 @@ with latest_tab:
                 delta_color="inverse")
 
 with today_tab:
-    st.dataframe(graph.line_graph.df)
     st.subheader("Today's Statistics")
 
     st.plotly_chart(graph.line_graph.aqi_ts_today, use_container_width=True)
