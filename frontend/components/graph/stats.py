@@ -1,5 +1,5 @@
 import numpy as np
-from frontend.utils.dataframe import df, today_df, week_df
+from frontend.utils.dataframe import df, today_df, week_df, forecast_1d_df, forecast_3d_df
 
 
 ### The pm 2.5 atm level group by weather condition and weather main
@@ -88,3 +88,9 @@ delta = latest[show_col] - prev[show_col]
 ### This Week
 week = week_df[show_col].describe()
 
+### Forecasting
+# 1 day
+oneday_forecast = forecast_3d_df.describe()
+
+# 3 days
+threedays_forecast = forecast_3d_df.describe()
