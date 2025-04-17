@@ -377,6 +377,10 @@ class Predictor:
         return df.to_dict('records')
 
     @classmethod
+    def get_empty_prediction(cls, target: str):
+        return pd.DataFrame(columns=['ts', target])
+
+    @classmethod
     def predict(cls, target):
         if "3d" in target:
             days_pred = 3
@@ -392,6 +396,9 @@ class Predictor:
         for_predict_df = for_predict_df[for_predict_df['ts'] >= (pd.Timestamp.now() - pd.Timedelta(days=days_pred))]
 
         for_predict_df.dropna(inplace=True)
+
+        if len(for_predict_df) == 0:
+            return cls.get_empty_prediction(target)
 
         prediction = pd.DataFrame()
         prediction['ts'] = for_predict_df.pop('ts') + pd.Timedelta(days=days_pred)
