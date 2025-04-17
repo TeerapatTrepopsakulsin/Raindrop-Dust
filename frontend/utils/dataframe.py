@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-from sklearn.preprocessing import OneHotEncoder
 from .api import get_api_res
 
 
@@ -18,6 +17,15 @@ snd_df = pd.DataFrame(data)
 response = get_api_res("/raw/hourly?limit=-1")
 data = response.json()
 hour_df = pd.DataFrame(data)
+
+# Get Forecast table
+response = get_api_res("/forecast/1day")
+data = response.json()
+forecast_1d_df = pd.DataFrame(data)
+
+response = get_api_res("/forecast/3day")
+data = response.json()
+forecast_3d_df = pd.DataFrame(data)
 
 
 def preprocessing(primary: pd.DataFrame, secondary: pd.DataFrame) -> pd.DataFrame:
