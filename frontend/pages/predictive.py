@@ -10,11 +10,9 @@ oneday_tab, threedays_tab = st.tabs(["24 Hours", "72 Hours"])
 with oneday_tab:
     st.subheader("24 Hours Forecast")
 
-    # st.plotly_chart(graph.line_graph.pm_forecast1d)
-    #
-    # st.plotly_chart(graph.line_graph.aqi_forecast1d)
-    st.write("PM Forecast for the next day")
-    st.write("AQI Forecast for the next day")
+    st.plotly_chart(graph.line_graph.pm_forecast1d)
+
+    st.plotly_chart(graph.line_graph.aqi_forecast1d)
 
     forecast_1d = graph.stats.oneday_forecast
 
