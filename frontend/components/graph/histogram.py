@@ -4,9 +4,10 @@ from frontend.utils.dataframe import df
 ### Histogram for pm atm
 
 # pm histogram with no hue
-pm1_0 = px.histogram(df, x="pm1_0_atm", title=f"Histogram of pm1_0_atm", width=1000, height=300)
-pm2_5 = px.histogram(df, x="pm1_0_atm", title=f"Histogram of pm2_5_atm", width=1000, height=300)
-pm10_0 = px.histogram(df, x="pm10_0_atm", title=f"Histogram of pm10_0_atm", width=1000, height=300)
+pm1_0 = px.histogram(df, x="pm1_0_atm", title=f"Histogram of pm1_0_atm", width=1000, height=400)
+pm2_5 = px.histogram(df, x="pm1_0_atm", title=f"Histogram of pm2_5_atm", width=1000, height=400)
+pm10_0 = px.histogram(df, x="pm10_0_atm", title=f"Histogram of pm10_0_atm", width=1000, height=400)
+aqi = px.histogram(df, x="aqi", title=f"Histogram of aqi", width=1000, height=400)
 
 
 ### Histogram for pm atm with categorical data
