@@ -79,6 +79,7 @@ df.drop('is_rain_label', axis=1, inplace=True)
 
 ### Earthquake
 df['earthquake'] = (df['ts'] >= '2025-03-28 13:00') & (df['ts'] < '2025-03-29 13:00')
+df['earthquake'] = df['earthquake'].map({True: 'Earthquake', False: 'Normal'})
 
 pm2_5_earthquake = px.box(
     df,
@@ -86,10 +87,8 @@ pm2_5_earthquake = px.box(
     y='pm2_5_atm',
     title='Earthquake effect on PM 2.5',
     labels={
-        'earthquake': '',
-        'pm2_5_atm': 'PM 2.5 concentration (μg/m^3)',
-        'false': 'Normal',
-        'true': 'Earthquake (1 pm, 28 Mar 2025 - 1 pm, 29 Mar 2025)',
+        'earthquake': 'Earthquake: 1 pm, 28 Mar 2025 - 1 pm, 29 Mar 2025',
+        'pm2_5_atm': 'PM 2.5 concentration (μg/m^3)'
     },
 )
 
@@ -98,6 +97,7 @@ df.drop('earthquake', axis=1, inplace=True)
 
 ### Songkran
 df['songkran'] = (df['ts'] >= '2025-04-13') & (df['ts'] < '2025-04-18')
+df['songkran'] = df['songkran'].map({True: 'Songkran Festival', False: 'Normal'})
 
 pm2_5_songkran = px.box(
     df,
@@ -105,10 +105,8 @@ pm2_5_songkran = px.box(
     y='pm2_5_atm',
     title='Songkran Festival effect on PM 2.5',
     labels={
-        'songkran': '',
-        'pm2_5_atm': 'PM 2.5 concentration (μg/m^3)',
-        'false': 'Normal',
-        'true': 'Songkran Festival (13-17 Apr 2025)',
+        'songkran': 'Songkran Festival: 13-17 Apr 2025',
+        'pm2_5_atm': 'PM 2.5 concentration (μg/m^3)'
     },
 )
 

@@ -70,5 +70,5 @@ with st.expander("Correlation"):
 col1, col2 = st.columns(2)
 with col1.expander("Fun Exploration: Does Earthquake affect PM 2.5?"):
     st.plotly_chart(graph.box_plot.pm2_5_earthquake)
-with col2.expander("Fun Exploration: Does Songkran Festival affect PM 2.5?"):
+with col2.expander("Fun Exploration: Does Songkran affect PM 2.5?"):
     st.plotly_chart(graph.box_plot.pm2_5_songkran)
