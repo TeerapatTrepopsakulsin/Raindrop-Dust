@@ -26,7 +26,13 @@ pm_ts = px.line(
     x='ts',
     y=pm_atm,
     title='Particulate Matter Over Time',
-    labels={'ts': 'Timestamp', 'pm1_0_atm': 'PM 1.0', 'pm2_5_atm': 'PM 2.5', 'pm10_0_atm': 'PM 10', 'value': 'Particulate Matter concentration (µg/m³)'},
+    labels={'ts': 'Timestamp',
+            'pm1_0_atm': 'PM 1.0',
+            'pm2_5_atm': 'PM 2.5',
+            'pm10_0_atm': 'PM 10',
+            'value': 'Particulate Matter concentration (µg/m³)',
+            'variable': 'PM Type'
+    },
     width=1300,
     height=450
 )
