@@ -86,6 +86,10 @@ def generate_bar_chart(sel_attr: str, sel_hue: str, start_datetime: datetime, en
 
     label_attr = {v: k for k, v in parse_attr.items()}
     label_attr.update(label_hue)
+    label_attr.update({
+        'stat': '',
+        'value': 'Value'
+    })
 
     label_start = start_datetime.strftime('%d %b %Y, %I:%M %p')
     label_end = end_datetime.strftime('%d %b %Y, %I:%M %p')
