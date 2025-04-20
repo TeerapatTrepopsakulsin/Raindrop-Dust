@@ -1,6 +1,10 @@
+from datetime import datetime
+
 import plotly.express as px
+
 from frontend.utils.dataframe import df
-from .stats import pm_aqi_weather_main, target, pm_aqi_weather_con, pm_aqi_day_of_week
+from .stats import pm_aqi_weather_main, pm_aqi_weather_con, pm_aqi_day_of_week, parse_attr, parse_hue, create_groupby, \
+    join_statistics
 
 ### PM2.5 when rain and not rain
 
@@ -62,3 +66,37 @@ pm_aqi_day_of_week = px.bar(
     color='day_of_week',
     barmode='group',
 )
+
+### Generator
+def generate_bar_chart(sel_attr: str, sel_hue: str, start_datetime: datetime, end_datetime: datetime, barmode: str='group'):
+    select_attr = parse_attr[sel_attr]
+
+    label_hue = {v: k for k, v in parse_hue.items()}
+
+    hue = parse_hue[sel_hue]
+
+    gb_df = join_statistics(hue, value=select_attr, start_datetime=start_datetime, end_datetime=end_datetime)
+    if gb_df is None:
+        return px.bar(
+            None,
+            title=f'{sel_attr} Descriptive Statistics',
+        )
+
+    # return gb_df
+
+    label_attr = {v: k for k, v in parse_attr.items()}
+    label_attr.update(label_hue)
+
+    label_start = start_datetime.strftime('%d %b %Y, %I:%M %p')
+    label_end = end_datetime.strftime('%d %b %Y, %I:%M %p')
+    bar = px.bar(
+        gb_df,
+        x='stat',
+        y='value',
+        title=f'{sel_attr} Descriptive Statistics ({label_start} - {label_end})',
+        color=hue,
+        labels=label_attr,
+        barmode=barmode,
+    )
+
+    return bar
