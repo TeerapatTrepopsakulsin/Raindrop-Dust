@@ -84,7 +84,7 @@ with st.container(border=True):
     end_time = col2.time_input('input time',
                                label_visibility="collapsed",
                                key="exploration_scatter_end_time",
-                               value="12:00",
+                               value="23:00",
                                step=3600)
 
     start_datetime = datetime.combine(start_date, start_time)
@@ -184,15 +184,6 @@ with st.container(border=True):
     if valid:
         with st.spinner("Generating..."):
             time.sleep(2)
-            # st.dataframe(
-            #     graph.bar_chart.generate_bar_chart(
-            #         sel_attr=selected_attr,
-            #         sel_hue=hue_selected,
-            #         barmode=bar_mode,
-            #         start_datetime=start_datetime,
-            #         end_datetime=end_datetime
-            #     )
-            # )
             st.plotly_chart(
                 graph.bar_chart.generate_bar_chart(
                     sel_attr=selected_attr,

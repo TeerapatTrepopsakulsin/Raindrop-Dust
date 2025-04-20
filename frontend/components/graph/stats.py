@@ -7,8 +7,10 @@ from frontend.utils.dataframe import df, today_df, week_df, forecast_1d_df, fore
 target = ['pm2_5_atm', 'pm10_0_atm', 'aqi']
 ### The pm 2.5 atm level group by weather condition and weather main
 
+
 def mode_func(x):
     return x.mode().iloc[0] if not x.mode().empty else np.nan
+
 
 # by weather condition
 pm2_5_weather_con = df.groupby('weather_con')['pm2_5_atm'].agg(
@@ -28,7 +30,8 @@ pm2_5_weather_main = df.groupby('weather_main')['pm2_5_atm'].agg(
     max='max'
 ).reset_index()
 
-def create_groupby(gb: str, value: str, start_datetime: datetime=None, end_datetime: datetime=None, init_df=df):
+
+def create_groupby(gb: str, value: str, start_datetime: datetime = None, end_datetime: datetime = None, init_df=df):
     df = init_df.copy()
     if start_datetime:
         df = df[df['ts'] >= start_datetime]
@@ -95,8 +98,6 @@ def join_statistics(gb, **kwargs):
     )
 
     return stats
-
-
 
 
 # by weather condition
@@ -214,7 +215,7 @@ week = week_df[show_col].describe()
 
 ### Forecasting
 # 1 day
-oneday_forecast = forecast_3d_df.describe()
+oneday_forecast = forecast_1d_df.describe()
 
 # 3 days
 threedays_forecast = forecast_3d_df.describe()
@@ -245,6 +246,8 @@ parse_hue = {
         'Weather (Detailed)': 'weather_con',
         'Day of Week': 'day_of_week'
     }
+
+
 ### Find Peaked and Bottom date
 def find_peaked_and_bottomed(init_col: str, init_df: pd.DataFrame = df):
     df = init_df.copy()
