@@ -1,7 +1,23 @@
 import streamlit as st
 
-
 st.title('Raindrop Dust')
+
+col1, col2, col3, col4, col5, col6, col7 = st.columns(7)
+with col1:
+    st.page_link("pages/current.py", label="Current", icon="😶‍🌫️")
+with col2:
+    st.page_link("pages/exploration.py", label="Exploration", icon="🤯")
+with col3:
+    st.page_link("pages/descriptive.py", label="Descriptive", icon="🤤")
+with col4:
+    st.page_link("pages/predictive.py", label="Predictive", icon="🥹")
+with col5:
+    st.page_link("pages/dataset.py", label="Dataset", icon="😎")
+with col6:
+    st.page_link("pages/api.py", label="API", icon="😍")
+with col7:
+    st.page_link("pages/api_docs.py", label="Documents", icon="😷")
+
 current_page = st.Page("pages/current.py", title="Current", icon="😶‍🌫️")
 exploration_page = st.Page("pages/exploration.py", title="Exploration", icon="🤯")
 descriptive_page = st.Page("pages/descriptive.py", title="Descriptive", icon="🤤")
