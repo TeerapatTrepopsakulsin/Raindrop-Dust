@@ -8,10 +8,10 @@ from frontend.utils.dataframe import df
 ### Histogram for pm atm
 
 # pm histogram with no hue
-pm1_0 = px.histogram(df, x="pm1_0_atm", title=f"Histogram of PM 1.0", histnorm='percent', width=1000, height=400)
-pm2_5 = px.histogram(df, x="pm2_5_atm", title=f"Histogram of PM 2.5", histnorm='percent', width=1000, height=400)
-pm10_0 = px.histogram(df, x="pm10_0_atm", title=f"Histogram of PM 10", histnorm='percent', width=1000, height=400)
-aqi = px.histogram(df, x="aqi", title=f"Histogram of AQI", histnorm='percent', width=1000, height=400)
+pm1_0 = px.histogram(df, x="pm1_0_atm", title="Histogram of PM 1.0 concentration (µg/m³)", histnorm='percent', width=1000, height=400)
+pm2_5 = px.histogram(df, x="pm2_5_atm", title="Histogram of PM 2.5 concentration (µg/m³)", histnorm='percent', width=1000, height=400)
+pm10_0 = px.histogram(df, x="pm10_0_atm", title="Histogram of PM 10 concentration (µg/m³)", histnorm='percent', width=1000, height=400)
+aqi = px.histogram(df, x="aqi", title="Histogram of AQI", histnorm='percent', width=1000, height=400)
 
 
 ### Histogram for pm atm with categorical data
