@@ -1,5 +1,4 @@
 import time
-
 import streamlit as st
 from frontend.components import graph
 
@@ -49,7 +48,8 @@ with st.expander("Correlation"):
     use_weather_hue = st.toggle("Weather Condition as hue", value=False)
 
     if use_weather_hue:
-        time.sleep(1)
+        with st.spinner("Loading data..."):
+            time.sleep(1)
         st.plotly_chart(graph.scatter_plot.pm2_5_hum_weather)
         st.plotly_chart(graph.scatter_plot.pm2_5_rain_weather)
         st.plotly_chart(graph.scatter_plot.pm2_5_cloud_weather)
@@ -57,7 +57,8 @@ with st.expander("Correlation"):
         st.plotly_chart(graph.scatter_plot.pm2_5_temp_weather)
         st.plotly_chart(graph.scatter_plot.pm2_5_light_weather)
     else:
-        time.sleep(1)
+        with st.spinner("Loading data..."):
+            time.sleep(1)
         st.plotly_chart(graph.scatter_plot.pm2_5_hum)
         st.plotly_chart(graph.scatter_plot.pm2_5_rain)
         st.plotly_chart(graph.scatter_plot.pm2_5_cloud)
