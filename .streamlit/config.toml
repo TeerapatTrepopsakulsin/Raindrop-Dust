@@ -6,4 +6,8 @@ textColor = "#ECEFCA"
 font = "serif"
 
 [client]
-showSidebarNavigation = true
+showSidebarNavigation = false
+toolbarMode = "minimal"
+
+[layout]
+wide = true
