@@ -40,35 +40,40 @@ def get_hourly(db: Session, start_date=None, end_date=None, skip:int=0, limit:in
 
 
 def get_summary(db: Session, start_date=None, end_date=None, period=None, date=None, sum_type=None):
+    end_time = None
+
     if sum_type == 0:
         if date is None:
-            date = db.query(Hourly.ts).order_by(Hourly.ts.asc()).limit(1).scalar()
+            date = db.query(Hourly.ts).order_by(Hourly.ts.desc()).first()[0]
         else:
             date = datetime.fromisoformat(date)
 
-        if period is None:
-            period = "daily"
-
-        if period == "daily":
-            end_time = date + timedelta(days=1)
-        elif period == "weekly":
+        if period == "weekly":
             end_time = date + timedelta(weeks=1)
         else:
-            raise ValueError("Invalid period. Use 'daily' or 'weekly'.")
+            end_time = date + timedelta(days=1)
     elif sum_type == 1:
-        if end_date is None:
-            end_date = db.query(Hourly.ts).order_by(Hourly.ts.asc()).limit(1).scalar()
-        if start_date is None:
-            start_date = db.query(Hourly.ts).order_by(Hourly.ts.desc()).limit(1).scalar()
-
-        end_time = end_date
-        date = start_date
+        if start_date is not None:
+            date = datetime.fromisoformat(start_date)
+        if end_date is not None:
+            end_time = datetime.fromisoformat(end_date)
     else:
         raise ValueError("Invalid type.")
 
     query = db.query(Hourly)
-    query = query.filter(Hourly.ts >= date)
-    query = query.filter(Hourly.ts < end_time)
+
+    if date is not None and end_time is not None:
+        if date >= end_time:
+            return []
+
+    if date is not None:
+        query = query.filter(Hourly.ts >= date)
+    else:
+        date = db.query(Hourly.ts).order_by(Hourly.ts.asc()).first()[0]
+    if end_time is not None:
+        query = query.filter(Hourly.ts < end_time)
+    else:
+        end_time = db.query(Hourly.ts).order_by(Hourly.ts.desc()).first()[0]
 
     max_record = query.order_by(Hourly.rain.desc()).limit(1).all()
     min_record = query.order_by(Hourly.rain.asc()).limit(1).all()
