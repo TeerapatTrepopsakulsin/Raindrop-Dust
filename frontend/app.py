@@ -1,7 +1,5 @@
 import streamlit as st
 from streamlit_extras.let_it_rain import rain
-from streamlit_lottie import st_lottie
-import json
 
 st.set_page_config(
     page_title="Raindrop Dust",
@@ -15,14 +13,7 @@ rain(
     animation_length="infinite",
 )
 
-with open("rain_ani.json") as f:
-    lottie_json = json.load(f)
-
-col1, col2, col3, col4 = st.columns(4)
-with col1:
-    st.title('Raindrop Dust')
-with col2:
-    st_lottie(lottie_json, height=100, width=100)
+st.title('Raindrop Dust')
 
 col1, col2, col3, col4, col5, col6, col7 = st.columns(7)
 with col1:
