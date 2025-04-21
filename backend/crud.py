@@ -65,6 +65,9 @@ def get_summary(db: Session, start_date=None, end_date=None, period=None, date=N
 
     query = db.query(Hourly).filter(Hourly.ts >= date, Hourly.ts < end_time)
 
+    if not query.all():
+        return []
+
     mean_query = query.with_entities(
         func.round(func.avg(Hourly.temp), 4).label("temp"),
         func.round(func.avg(Hourly.temp_max), 4).label("temp_max"),
@@ -160,13 +163,12 @@ def get_summary(db: Session, start_date=None, end_date=None, period=None, date=N
     l_max = schematise_hourly_response(max_record)
     l_min = schematise_hourly_response(min_record)
 
-    if len(l_ave) > 0:
-        return {}
-
-    return {
+    return [
+        {
         "start_time": TimeStamp(timestamp=date),
         "end_time": TimeStamp(timestamp=end_time),
         "average": l_ave[0],
         "max": l_max[0],
         "min": l_min[0]
-    }
+        }
+    ]

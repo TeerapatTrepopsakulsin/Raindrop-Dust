@@ -51,7 +51,7 @@ async def get_particle(start_date: str | None = None, end_date: str | None = Non
     return data
 
 
-@router.get("/summary", response_model=schemas.SummaryResponse, response_model_exclude_none=True)
+@router.get("/summary", response_model=list[schemas.SummaryResponse])
 async def get_summary(period: str | None = None, date: str | None = None, db: Session = Depends(get_db)):
     """ Return a descriptive summary response of the data.
 
@@ -63,7 +63,7 @@ async def get_summary(period: str | None = None, date: str | None = None, db: Se
     return data
 
 
-@router.get("/summary/custom", response_model=schemas.SummaryResponse, response_model_exclude_none=True)
+@router.get("/summary/custom", response_model=list[schemas.SummaryResponse])
 async def get_custom_summary(start_date: str | None = None, end_date: str | None = None, db: Session = Depends(get_db)):
     """ Return a descriptive summary response of the data.
 
