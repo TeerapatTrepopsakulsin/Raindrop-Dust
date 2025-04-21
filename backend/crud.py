@@ -160,10 +160,13 @@ def get_summary(db: Session, start_date=None, end_date=None, period=None, date=N
     l_max = schematise_hourly_response(max_record)
     l_min = schematise_hourly_response(min_record)
 
+    if len(l_ave) > 0:
+        return {}
+
     return {
         "start_time": TimeStamp(timestamp=date),
         "end_time": TimeStamp(timestamp=end_time),
-        "average": l_ave[0] if len(l_ave) > 0 else None,
-        "max": l_max[0] if len(l_max) > 0 else None,
-        "min": l_min[0] if len(l_min) > 0 else None
+        "average": l_ave[0],
+        "max": l_max[0],
+        "min": l_min[0]
     }
