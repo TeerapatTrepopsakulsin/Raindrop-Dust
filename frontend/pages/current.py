@@ -64,7 +64,7 @@ with latest_tab:
     delta_df = graph.stats.delta
 
     st.markdown(
-        f"<span style='color: #1f77b4; font-weight: bold;'>Update: {latest_df['ts']}</span>",
+        f"<span style='color: {color_3}; font-weight: bold;'>Update: {latest_df['ts']}</span>",
         unsafe_allow_html=True
     )
 
