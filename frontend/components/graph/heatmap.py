@@ -1,6 +1,6 @@
 import plotly.express as px
-from frontend.utils.dataframe import df
 from .stats import corr, envi_corr
+
 
 ### Correlation of numerical attributes
 

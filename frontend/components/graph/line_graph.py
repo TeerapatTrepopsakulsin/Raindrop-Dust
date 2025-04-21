@@ -3,11 +3,11 @@ from frontend.utils.dataframe import df, today_df, week_df, forecast_1d_df, fore
 
 
 ### AQI
-aqi_ts = px.line(df, x='ts', y= 'aqi', labels={'ts': 'Timestamp', 'aqi': "AQI"}, title='AQI Line Chart')
+aqi_ts = px.line(df, x='ts', y='aqi', labels={'ts': 'Timestamp', 'aqi': "AQI"}, title='AQI Line Chart')
 
-aqi_ts_today = px.line(today_df, x='ts', y= 'aqi', labels={'ts': 'Timestamp', 'aqi': "AQI"}, title='AQI Line Chart Today')
+aqi_ts_today = px.line(today_df, x='ts', y='aqi', labels={'ts': 'Timestamp', 'aqi': "AQI"}, title='AQI Line Chart Today')
 
-aqi_ts_week = px.line(week_df, x='ts', y= 'aqi', labels={'ts': 'Timestamp', 'aqi': "AQI"}, title='AQI Line Chart This Week')
+aqi_ts_week = px.line(week_df, x='ts', y='aqi', labels={'ts': 'Timestamp', 'aqi': "AQI"}, title='AQI Line Chart This Week')
 
 
 ####
@@ -26,12 +26,13 @@ pm_ts = px.line(
     x='ts',
     y=pm_atm,
     title='Particulate Matter Over Time',
-    labels={'ts': 'Timestamp',
-            'pm1_0_atm': 'PM 1.0',
-            'pm2_5_atm': 'PM 2.5',
-            'pm10_0_atm': 'PM 10',
-            'value': 'Particulate Matter concentration (µg/m³)',
-            'variable': 'PM Type'
+    labels={
+        'ts': 'Timestamp',
+        'pm1_0_atm': 'PM 1.0',
+        'pm2_5_atm': 'PM 2.5',
+        'pm10_0_atm': 'PM 10',
+        'value': 'Particulate Matter concentration (µg/m³)',
+        'variable': 'PM Type'
     },
     width=1300,
     height=450

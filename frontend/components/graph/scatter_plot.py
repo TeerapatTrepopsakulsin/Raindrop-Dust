@@ -1,6 +1,8 @@
-import plotly.express as px
-from frontend.utils.dataframe import df, today_df, week_df
+from datetime import datetime
 
+import plotly.express as px
+from frontend.utils.dataframe import df
+from .stats import parse_attr, parse_hue
 
 ### Scatter chart:
 
@@ -167,3 +169,32 @@ pm2_5_cloud_weather.update_layout(legend_title_text='Weather Condition')
 pm_atm = ["pm1_0_atm", "pm2_5_atm", "pm10_0_atm"]
 
 pm_matrix = px.scatter_matrix(df, dimensions=pm_atm, width=800, height=800)
+
+
+def generate_scatter_plot(sel_attr, sel_hue, start_datetime: datetime, end_datetime: datetime, init_df=df):
+    select_attr = [parse_attr[sa] for sa in sel_attr]
+
+    label_hue = {v: k for k, v in parse_hue.items()}
+
+    hue = parse_hue[sel_hue]
+
+    df = init_df[(init_df['ts'] >= start_datetime) & (init_df['ts'] < end_datetime)]
+    x_axis = select_attr[0]
+    y_axis = select_attr[1]
+
+    label_attr = {v: k for k, v in parse_attr.items()}
+    label_attr.update(label_hue)
+    label_attr.update({'value': sel_attr[1]})
+
+    label_start = start_datetime.strftime('%d %b %Y, %I:%M %p')
+    label_end = end_datetime.strftime('%d %b %Y, %I:%M %p')
+    scatter = px.scatter(
+        df,
+        x=x_axis,
+        y=y_axis,
+        color=hue,
+        trendline='ols',
+        labels=label_attr,
+        title=f"{sel_attr[0]} vs {sel_attr[1]} ({label_start} - {label_end})",
+    )
+    return scatter
