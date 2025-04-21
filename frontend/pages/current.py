@@ -79,7 +79,7 @@ with latest_tab:
     col4.metric("Weather condition", f"{latest_df['weather_main']}", f"{latest_df['weather_con']}",
                 delta_color="off", border=True, help="OpenWeatherAPI")
 
-    col1, col2, col3, col4 = st.columns(4)
+    col1, col2, col3 = st.columns(3)
     with col1:
         st.markdown("<div class='section-title'>💧 Environment</div>", unsafe_allow_html=True)
         st.metric("Humidity (%)", f"{latest_df['hum']:.2f}", f"{delta_df['hum']:.2f}"
@@ -97,15 +97,20 @@ with latest_tab:
         st.metric("Maximum temperature (°C)", f"{latest_df['max_temp']:.2f}", f"{delta_df['max_temp']:.2f}"
                   , border=True, help="KidBright")
     with col3:
-        st.markdown("<div class='section-title'>🌫️ PM: Atmospheric</div>", unsafe_allow_html=True)
+        st.image("pic/sky.jpg", use_container_width=True)
+
+    st.markdown("<div class='section-title'>PM</div>", unsafe_allow_html=True)
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown("<div class='section-title'>🌀 Atmospheric</div>", unsafe_allow_html=True)
         st.metric("PM 1.0 (µg/m³)", f"{latest_df['pm1_0_atm']:.2f}", f"{delta_df['pm1_0_atm']:.2f}"
                   , border=True, help="KidBright")
         st.metric("PM 2.5 (µg/m³)", f"{latest_df['pm2_5_atm']:.2f}", f"{delta_df['pm2_5_atm']:.2f}"
                   , border=True, help="KidBright")
         st.metric("PM 10.0 (µg/m³)", f"{latest_df['pm10_0_atm']:.2f}", f"{delta_df['pm10_0_atm']:.2f}"
                   , border=True, help="KidBright")
-    with col4:
-        st.markdown("<div class='section-title'>🏭 PM: Factory Sensor</div>", unsafe_allow_html=True)
+    with col2:
+        st.markdown("<div class='section-title'>🏭 Factory Sensor</div>", unsafe_allow_html=True)
         st.metric("PM 1.0 (µg/m³)", f"{latest_df['pm1_0']:.2f}³", f"{delta_df['pm1_0']:.2f}"
                   , border=True, help="KidBright")
         st.metric("PM 2.5 (µg/m³)", f"{latest_df['pm2_5']:.2f}", f"{delta_df['pm2_5']:.2f}"

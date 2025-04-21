@@ -17,7 +17,7 @@ st.markdown(f"""
 rain(
     emoji="💧",
     font_size=12,
-    falling_speed=5,
+    falling_speed=4,
     animation_length="infinite",
 )
 
@@ -28,7 +28,7 @@ st.markdown(f"""
     color: #94B4C1;
     text-align: center;
     margin-bottom: 1rem;">
-    Raindrop <span style='color:white;'>Dust</span> 🌧️
+    Raindrop <span style='color:white;'>Dust</span> 🌫️
 </div>
 """, unsafe_allow_html=True)
 
@@ -47,6 +47,8 @@ with col6:
     st.page_link("pages/api.py", label="API", icon="🗝️")
 with col7:
         st.page_link("pages/api_docs.py", label="Documents", icon="📄")
+
+st.markdown("<p style='text-align: center; font-size: 24px; color: #94B4C1'>━━━━━·. ݁₊ ⊹ . ݁˖ .݁・:・:. ݁₊⊹ . ݁  ݁・:・. ݁₊ ⊹. ݁˖ :・:·━━━━━ ️</p>", unsafe_allow_html=True)
 
 current_page = st.Page("pages/current.py", title="Current", icon="🆕")
 exploration_page = st.Page("pages/exploration.py", title="Exploration", icon="🔍")
