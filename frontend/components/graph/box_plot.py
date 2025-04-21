@@ -59,11 +59,13 @@ pm25_rain_stats = pm2_5_rain.copy()
 
 df['is_rain_label'] = df['is_rain'].map({True: 'Rain', False: 'No Rain'})
 
-pm2_5_rain = px.box(df,
-             x='is_rain_label',
-             y='pm2_5_atm',
-             title='PM 2.5: Rain vs No Rain',
-             labels={'is_rain_label': 'Rain Condition', 'pm2_5_atm': 'PM 2.5'})
+pm2_5_rain = px.box(
+    df,
+    x='is_rain_label',
+    y='pm2_5_atm',
+    title='PM 2.5: Rain vs No Rain',
+    labels={'is_rain_label': 'Rain Condition', 'pm2_5_atm': 'PM 2.5'}
+)
 pm2_5_rain.update_layout(width=800, height=600)
 pm2_5_rain.add_trace(
 go.Scatter(
