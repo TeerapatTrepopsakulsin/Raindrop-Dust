@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends
+from typing import Union, List
 from .. import schemas, crud
 from sqlalchemy.orm import Session
 from ..database import get_db
@@ -63,7 +64,7 @@ async def get_summary(period: str | None = None, date: str | None = None, db: Se
     return data
 
 
-@router.get("/summary/custom", response_model=schemas.SummaryResponse)
+@router.get("/summary/custom", response_model=Union[schemas.SummaryResponse, List])
 async def get_custom_summary(start_date: str | None = None, end_date: str | None = None, db: Session = Depends(get_db)):
     """ Return a descriptive summary response of the data.
 
