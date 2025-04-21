@@ -57,28 +57,15 @@ def get_summary(db: Session, start_date=None, end_date=None, period=None, date=N
             date = datetime.fromisoformat(start_date)
         if end_date is not None:
             end_time = datetime.fromisoformat(end_date)
-    else:
-        raise ValueError("Invalid type.")
 
-    query = db.query(Hourly)
-
-    if date is not None and end_time is not None:
-        if date >= end_time:
-            return []
-
-    if date is not None:
-        query = query.filter(Hourly.ts >= date)
-    else:
+    if not date:
         date = db.query(Hourly.ts).order_by(Hourly.ts.asc()).first()[0]
-    if end_time is not None:
-        query = query.filter(Hourly.ts < end_time)
-    else:
+    if not end_time:
         end_time = db.query(Hourly.ts).order_by(Hourly.ts.desc()).first()[0]
 
-    max_record = query.order_by(Hourly.rain.desc()).limit(1).all()
-    min_record = query.order_by(Hourly.rain.asc()).limit(1).all()
+    query = db.query(Hourly).filter(Hourly.ts >= date, Hourly.ts < end_time)
 
-    mean_query = db.query(
+    mean_query = query.with_entities(
         func.round(func.avg(Hourly.temp), 4).label("temp"),
         func.round(func.avg(Hourly.temp_max), 4).label("temp_max"),
         func.round(func.avg(Hourly.temp_min), 4).label("temp_min"),
@@ -102,7 +89,57 @@ def get_summary(db: Session, start_date=None, end_date=None, period=None, date=N
         func.round(func.avg(Hourly.pcnt_10_0), 4).label("pcnt_10_0")
     )
 
-    mean_result = mean_query.filter(Hourly.ts >= date).filter(Hourly.ts < end_time).first()
+    max_query = query.with_entities(
+        func.round(func.max(Hourly.temp), 4).label("temp"),
+        func.round(func.max(Hourly.temp_max), 4).label("temp_max"),
+        func.round(func.max(Hourly.temp_min), 4).label("temp_min"),
+        func.round(func.max(Hourly.hum), 4).label("hum"),
+        func.round(func.max(Hourly.light), 4).label("light"),
+        func.round(func.max(Hourly.wind_spd), 4).label("wind_spd"),
+        func.round(func.max(Hourly.cloud), 4).label("cloud"),
+        func.round(func.max(Hourly.rain), 4).label("rain"),
+        func.round(func.max(Hourly.aqi), 4).label("aqi"),
+        func.round(func.max(Hourly.pm1_0_atm), 4).label("pm1_0_atm"),
+        func.round(func.max(Hourly.pm2_5_atm), 4).label("pm2_5_atm"),
+        func.round(func.max(Hourly.pm10_0_atm), 4).label("pm10_0_atm"),
+        func.round(func.max(Hourly.pm1_0), 4).label("pm1_0"),
+        func.round(func.max(Hourly.pm2_5), 4).label("pm2_5"),
+        func.round(func.max(Hourly.pm10_0), 4).label("pm10_0"),
+        func.round(func.max(Hourly.pcnt_0_3), 4).label("pcnt_0_3"),
+        func.round(func.max(Hourly.pcnt_0_5), 4).label("pcnt_0_5"),
+        func.round(func.max(Hourly.pcnt_1_0), 4).label("pcnt_1_0"),
+        func.round(func.max(Hourly.pcnt_2_5), 4).label("pcnt_2_5"),
+        func.round(func.max(Hourly.pcnt_5_0), 4).label("pcnt_5_0"),
+        func.round(func.max(Hourly.pcnt_10_0), 4).label("pcnt_10_0")
+    )
+
+    min_query = query.with_entities(
+        func.round(func.min(Hourly.temp), 4).label("temp"),
+        func.round(func.min(Hourly.temp_max), 4).label("temp_max"),
+        func.round(func.min(Hourly.temp_min), 4).label("temp_min"),
+        func.round(func.min(Hourly.hum), 4).label("hum"),
+        func.round(func.min(Hourly.light), 4).label("light"),
+        func.round(func.min(Hourly.wind_spd), 4).label("wind_spd"),
+        func.round(func.min(Hourly.cloud), 4).label("cloud"),
+        func.round(func.min(Hourly.rain), 4).label("rain"),
+        func.round(func.min(Hourly.aqi), 4).label("aqi"),
+        func.round(func.min(Hourly.pm1_0_atm), 4).label("pm1_0_atm"),
+        func.round(func.min(Hourly.pm2_5_atm), 4).label("pm2_5_atm"),
+        func.round(func.min(Hourly.pm10_0_atm), 4).label("pm10_0_atm"),
+        func.round(func.min(Hourly.pm1_0), 4).label("pm1_0"),
+        func.round(func.min(Hourly.pm2_5), 4).label("pm2_5"),
+        func.round(func.min(Hourly.pm10_0), 4).label("pm10_0"),
+        func.round(func.min(Hourly.pcnt_0_3), 4).label("pcnt_0_3"),
+        func.round(func.min(Hourly.pcnt_0_5), 4).label("pcnt_0_5"),
+        func.round(func.min(Hourly.pcnt_1_0), 4).label("pcnt_1_0"),
+        func.round(func.min(Hourly.pcnt_2_5), 4).label("pcnt_2_5"),
+        func.round(func.min(Hourly.pcnt_5_0), 4).label("pcnt_5_0"),
+        func.round(func.min(Hourly.pcnt_10_0), 4).label("pcnt_10_0")
+    )
+
+    mean_result = mean_query.first()
+    max_result = max_query.first()
+    min_result = min_query.first()
 
     class DummyHourly:
         def __init__(self, **kwargs):
@@ -116,11 +153,17 @@ def get_summary(db: Session, start_date=None, end_date=None, period=None, date=N
                 setattr(self, k, v)
 
     mean_record = [DummyHourly(**mean_result._asdict())]
+    max_record = [DummyHourly(**max_result._asdict())]
+    min_record = [DummyHourly(**min_result._asdict())]
+
+    l_ave = schematise_hourly_response(mean_record)
+    l_max = schematise_hourly_response(max_record)
+    l_min = schematise_hourly_response(min_record)
 
     return {
         "start_time": TimeStamp(timestamp=date),
         "end_time": TimeStamp(timestamp=end_time),
-        "average": schematise_hourly_response(mean_record)[0],
-        "max": schematise_hourly_response(max_record)[0],
-        "min": schematise_hourly_response(min_record)[0]
+        "average": l_ave[0] if len(l_ave) > 0 else None,
+        "max": l_max[0] if len(l_max) > 0 else None,
+        "min": l_min[0] if len(l_min) > 0 else None
     }
