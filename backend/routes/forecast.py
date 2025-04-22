@@ -17,6 +17,11 @@ router = APIRouter(
 
 @router.get("/1day", response_model=list[schemas.ForecastResponse])
 async def forecast_1day(limit: int = -1, db: Session = Depends(get_db)):
+    """Get the forecast for the next 24 hours.
+
+    :param db: Session
+    :param limit: Number of days to return
+    """
     forecast = Predictor.get_1day_prediction()
     forecast = forecast[:limit] if limit != -1 else forecast
     return forecast
@@ -24,6 +29,11 @@ async def forecast_1day(limit: int = -1, db: Session = Depends(get_db)):
 
 @router.get("/3day", response_model=list[schemas.ForecastResponse])
 async def forecast_3day(limit: int = -1, db: Session = Depends(get_db)):
+    """Get the forecast for the next 72 hours.
+
+    :param db: Session
+    :param limit: Number of days to return
+    """
     forecast = Predictor.get_3day_prediction()
     forecast = forecast[:limit] if limit != -1 else forecast
     return forecast
