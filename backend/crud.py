@@ -13,7 +13,7 @@ def get_raw_primary(db: Session, limit:int=-1, sort:int=0):
         query = query.order_by(KidBright.ts.desc()) if sort == 1 else query
         query = query.limit(limit) if limit != -1 else query
     except Exception:
-        raise HTTPException(status_code=400, detail="Invalid date")
+        raise HTTPException(status_code=400, detail="Invalid params")
     return query.all()
 
 
@@ -23,7 +23,7 @@ def get_raw_secondary(db: Session, limit:int=-1, sort:int=0):
         query = query.order_by(Weather.ts.desc()) if sort == 1 else query
         query = query.limit(limit) if limit != -1 else query
     except Exception:
-        raise HTTPException(status_code=400, detail="Invalid date")
+        raise HTTPException(status_code=400, detail="Invalid params")
     return query.all()
 
 
@@ -33,7 +33,7 @@ def get_raw_hourly(db: Session, limit:int=-1, sort:int=0):
         query = query.order_by(Hourly.ts.desc()) if sort == 1 else query
         query = query.limit(limit) if limit != -1 else query
     except Exception:
-        raise HTTPException(status_code=400, detail="Invalid date")
+        raise HTTPException(status_code=400, detail="Invalid params")
     return query.all()
 
 
