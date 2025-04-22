@@ -11,6 +11,12 @@
 
 Raindrop-Dust is an environmental monitoring system that explores the connection between PM 2.5 particulate matter and various environmental variables such as temperature, light intensity, humidity, and weather conditions. The project leverages IoT devices, data analytics, and machine learning to provide insights into patterns affecting PM 2.5 levels and predict future air quality.
 
+## Collaborators and Affiliations
+| Name             | Department          | Faculty             | University                  |
+|------------------|---------------------|---------------------|-----------------------------|
+| Teerapat Trepopsakulsin    | Software and Knowledge Engineering    | Engineering  | Kasetsart University       |
+| Pattharamon Dumrongkittikule| Software and Knowledge Engineering    | Engineering  | Kasetsart University       |
+
 ## Key Features
 
 - **Real-time data monitoring** using sensors and MQTT
