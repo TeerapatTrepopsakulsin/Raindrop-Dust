@@ -260,31 +260,6 @@ def fit_model(init_df, model, target):
     return model
 
 
-# def svr_predict(init_df, model, target):
-#     # Preprocess Test (for Prediction)
-#     for_predict_df = init_df.copy()
-#     for_predict_df.drop(target_features, axis=1, inplace=True)
-#     for_predict_df['ts'] = for_predict_df['ts'].dt.to_timestamp()
-#     for_predict_df = for_predict_df[for_predict_df['ts'] >= (pd.Timestamp.now() - pd.Timedelta(days=3))]
-#
-#     for_predict_df.dropna(inplace=True)
-#
-#     prediction = pd.DataFrame()
-#     prediction['ts'] = for_predict_df.pop('ts') + pd.Timedelta(days=3)
-#
-#     X = for_predict_df.values
-#
-#     standard_scaler = StandardScaler()
-#     X = standard_scaler.fit_transform(X)
-#
-#     prediction[target] = model.predict(X)
-#
-#     prediction.reset_index(inplace=True)
-#     prediction.drop('index', axis=1, inplace=True)
-#
-#     return prediction
-
-
 # See in Data Analytics Colab to see how the model are tuned and constructed
 svr_models = [
     {
