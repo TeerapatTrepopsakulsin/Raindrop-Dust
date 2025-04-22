@@ -38,23 +38,14 @@ st.markdown(f"""
         cursor: pointer;
     }}
     
-    details summary {{
-        font-size: 1.2em;
-        font-weight: bold;
-        background-color: {color_3};
-        color: {head_text};
-        padding: 10px;
-        border-radius: 10px;
-        cursor: pointer;
-    }}
-    
     details summary:hover {{
         background-color: {head_text};
         color: {color_4};
     }}
     
     details[open] summary {{
-        background-color: #213448;
+        background-color: {color_4};
+        color: {head_text};
     }}
     
     details > summary::-webkit-details-marker {{
@@ -126,9 +117,8 @@ with col2:
         with s_col2:
             show_table(graph.stats.pm_aqi_weather_con)
 
-with st.expander("Raindrops"):
-    st.plotly_chart(graph.box_plot.pm2_5_rain)
-    show_table(graph.stats.pm2_5_rain)
+st.plotly_chart(graph.box_plot.pm2_5_rain)
+show_table(graph.stats.pm2_5_rain)
 
 st.markdown("<div class='section-title'>🏭 Air</div>", unsafe_allow_html=True)
 col1, col2 = st.columns(2)
@@ -182,7 +172,7 @@ with col2:
 
 st.markdown("<div class='section-title'>💡 Fun Exploration</div>", unsafe_allow_html=True)
 col1, col2 = st.columns(2)
-with col1.expander("Does Earthquake affect PM 2.5?"):
-    st.plotly_chart(graph.box_plot.pm2_5_earthquake)
-with col2.expander("Does Songkran affect PM 2.5?"):
-    st.plotly_chart(graph.box_plot.pm2_5_songkran)
+col1.subheader("Does Earthquake affect PM 2.5?")
+col1.plotly_chart(graph.box_plot.pm2_5_earthquake)
+col2.subheader("Does Songkran affect PM 2.5?")
+col2.plotly_chart(graph.box_plot.pm2_5_songkran)

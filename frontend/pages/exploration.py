@@ -27,27 +27,24 @@ st.markdown(f"""
         margin-bottom: 10px;
     }}
 
-details summary {{
+    details summary {{
         font-size: 1.2em;
         font-weight: bold;
-        background-color: {color_3};
-        color: {head_text};
+        background-color: {head_text};
+        color: {color_4};
         padding: 10px;
         border-radius: 10px;
         cursor: pointer;
     }}
     
     details summary:hover {{
-        background-color: {head_text};
-        color: {color_4};
+        background-color: {color_3};
+        color: {head_text};
     }}
     
     details[open] summary {{
-        background-color: #213448;
-    }}
-    
-    details > summary::-webkit-details-marker {{
-        display: none;
+        background-color: {color_4};
+        color: {head_text};
     }}
 </style>
 """, unsafe_allow_html=True)
@@ -88,21 +85,23 @@ with st.container(border=True):
         time.sleep(1)
         peaked_data, peaked_val, peaked_time, bottomed_data, bottomed_val, bottomed_time = graph.stats.find_peaked_and_bottomed(selected_attr)
 
-        with st.container(border=True):
-            st.header(f"📈 Most recent Peaked - {selected_attr}")
-            st.subheader(peaked_time)
-            st.markdown(f"<div class='main-title'>{peaked_val:2f}</div>", unsafe_allow_html=True)
+        col1, col2 = st.columns(2)
+        with col1:
+            with st.container(border=True):
+                st.header(f"📈 Most recent Peaked - {selected_attr}")
+                st.subheader(peaked_time)
+                st.markdown(f"<div class='main-title'>{peaked_val:2f}</div>", unsafe_allow_html=True)
 
-            with st.expander("Dataset"):
-                st.dataframe(peaked_data)
+                with st.expander("Dataset"):
+                    st.dataframe(peaked_data)
+        with col2:
+            with st.container(border=True):
+                st.header(f"📉 Most recent Bottomed - {selected_attr}")
+                st.subheader(bottomed_time)
+                st.markdown(f"<div class='main-title'>{bottomed_val:2f}</div>", unsafe_allow_html=True)
 
-        with st.container(border=True):
-            st.header(f"📉 Most recent Bottomed - {selected_attr}")
-            st.subheader(bottomed_time)
-            st.markdown(f"<div class='main-title'>{bottomed_val:2f}</div>", unsafe_allow_html=True)
-
-            with st.expander("Dataset"):
-                st.dataframe(bottomed_data)
+                with st.expander("Dataset"):
+                    st.dataframe(bottomed_data)
 
 
 with st.container(border=True):
@@ -302,8 +301,17 @@ with st.container(border=True):
 
 st.markdown("<div class='section-title'>❓ Explore more!</div>", unsafe_allow_html=True)
 
-with st.expander("PM 2.5: Rain vs No Rain"):
-    st.plotly_chart(graph.bar_chart.pm2_5_rain)
+col1, col2, col3 = st.columns(3)
+with col1:
+    with st.expander("PM 2.5: Rain vs No Rain"):
+        st.plotly_chart(graph.bar_chart.pm2_5_rain)
+with col2:
+    with st.expander("Week"):
+        st.plotly_chart(graph.box_plot.pm10_0_day_of_week)
+        st.plotly_chart(graph.histogram.day_of_week)
+with col3:
+    with st.expander("Correlation"):
+        st.plotly_chart(graph.heatmap.corr)
 
 col1, col2 = st.columns(2)
 with col1:
@@ -314,13 +322,3 @@ with col2:
     with st.expander("Weather Condition: Detailed"):
         st.plotly_chart(graph.box_plot.pm10_0_weather_con)
         st.plotly_chart(graph.histogram.weather_con)
-
-with st.expander("Week"):
-    col1, col2 = st.columns(2)
-    with col1:
-        st.plotly_chart(graph.box_plot.pm10_0_day_of_week)
-    with col2:
-        st.plotly_chart(graph.histogram.day_of_week)
-
-with st.expander("Correlation"):
-    st.plotly_chart(graph.heatmap.corr)
