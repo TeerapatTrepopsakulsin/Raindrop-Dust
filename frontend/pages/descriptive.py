@@ -67,11 +67,8 @@ custom_cmap = mcolors.LinearSegmentedColormap.from_list(
     "white_to_blue", [head_text, color_2]
 )
 
-def show_table(df, key_prefix=""):
-    if st.toggle("❇️ Show full table (might be slow!)", value=False, key=f"{key_prefix}_toggle"):
-        df_to_show = df
-    else:
-        df_to_show = df.head(50)
+def show_table(df):
+    df_to_show = df
 
     numeric_cols = df_to_show.select_dtypes(include=np.number).columns
     non_numeric_cols = df_to_show.select_dtypes(exclude=np.number).columns
@@ -116,8 +113,7 @@ with col1:
         with s_col1:
             st.plotly_chart(graph.pie_chart.pm2_5_weather_main)
         with s_col2:
-            # st.dataframe(graph.stats.pm_aqi_weather_main)
-            show_table(graph.stats.pm_aqi_weather_main, key_prefix="weather_main")
+            show_table(graph.stats.pm_aqi_weather_main)
 
 with col2:
     with st.expander("Detailed"):
@@ -128,13 +124,11 @@ with col2:
         with s_col1:
             st.plotly_chart(graph.pie_chart.pm2_5_weather_con)
         with s_col2:
-            # st.dataframe(graph.stats.pm_aqi_weather_con)
-            show_table(graph.stats.pm_aqi_weather_con, key_prefix="weather_con")
+            show_table(graph.stats.pm_aqi_weather_con)
 
 with st.expander("Raindrops"):
     st.plotly_chart(graph.box_plot.pm2_5_rain)
-    # st.dataframe(graph.stats.pm2_5_rain)
-    show_table(graph.stats.pm2_5_rain, key_prefix="pm2_5_rain")
+    show_table(graph.stats.pm2_5_rain)
 
 st.markdown("<div class='section-title'>🏭 Air</div>", unsafe_allow_html=True)
 col1, col2 = st.columns(2)
@@ -159,8 +153,7 @@ with col1:
         with s_col1:
             st.plotly_chart(graph.pie_chart.pm2_5_day_of_week)
         with s_col2:
-            # st.dataframe(graph.stats.pm_aqi_day_of_week)
-            show_table(graph.stats.pm_aqi_day_of_week, key_prefix="pm_aqi_day_of_week")
+            show_table(graph.stats.pm_aqi_day_of_week)
 
 with col2:
     with st.expander("Correlation"):
