@@ -91,7 +91,23 @@ Overall flow: connect MQTT input → JSON parsing → Insert statement → Datab
 
 The backend provides RESTful API endpoints for data sharing and analytics
 
-
+#### API Endpoints
+- **/data**
+  - **/data/latest**: Get the latest data
+  - **/data**: Get Full data
+  - **/data/pm**: Get PM data
+  - **/data/aqi**: Get AQI data
+  - **/data/particle**: Get Particles count data
+  - **/data/summary**: Get the aggregate data within the specified date and period
+  - **/data/summary/custom**: Get the aggregate data within the specified interval range
+- **/forecast**
+  - **/forecast/1day**: Get the next 24 hour forecast
+  - **/forecast/3day**: Get the next 72 hour forecast
+- **/raw**
+  - **/raw/primary**: Get the primary data
+  - **/raw/secondary**: Get the secondary data
+  - **/raw/hourly**: Get the hourly data
+ 
 ### 4. Frontend Dashboard (Streamlit)
 
 The Streamlit dashboard visualizes the data and provides interactive analytics
