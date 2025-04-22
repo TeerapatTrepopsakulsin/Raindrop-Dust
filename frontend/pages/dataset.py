@@ -34,7 +34,8 @@ st.markdown(f"""
     }}
     
     details[open] summary {{
-        background-color: #213448;
+        background-color: {color_4};
+        color: {head_text};
     }}
     
     details > summary::-webkit-details-marker {{
