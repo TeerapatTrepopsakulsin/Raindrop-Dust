@@ -97,7 +97,10 @@ with latest_tab:
         st.metric("Maximum temperature (°C)", f"{latest_df['max_temp']:.2f}", f"{delta_df['max_temp']:.2f}"
                   , border=True, help="KidBright")
     with col3:
-        st.image("pic/sky.jpg", use_container_width=True)
+        if latest_df['weather_main'] == "Rain":
+            st.image("pic/rain.jpg", use_container_width=True)
+        else:
+            st.image("pic/cloud.jpg", use_container_width=True)
 
     col1, col2 = st.columns(2)
     with col1:
