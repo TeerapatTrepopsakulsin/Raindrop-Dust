@@ -1,7 +1,5 @@
 from sqlalchemy import Column, Integer, String, Float, DateTime
-
-
-from database import Base
+from .database import Base
 
 class Weather(Base):
     __tablename__ = "openweather"
@@ -55,11 +53,11 @@ class Hourly(Base):
     lat = Column(Float)
     lon = Column(Float)
     temp = Column(Float)
-    temp_max = Column(Float, nullable=True)
-    temp_min = Column(Float, nullable=True)
+    temp_max = Column(Float)
+    temp_min = Column(Float)
     hum = Column(Float)
-    weather_main = Column(String(255), nullable=True)
-    weather_con = Column(String(255), nullable=True)
+    weather_main = Column(String(255))
+    weather_con = Column(String(255))
     wind_spd = Column(Float)
     cloud = Column(Float)
     rain = Column(Float)

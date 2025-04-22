@@ -1,32 +1,37 @@
 from contextlib import asynccontextmanager
-from fastapi import FastAPI, Depends, HTTPException
-from fastapi.responses import JSONResponse
-from pydantic import BaseModel
-from database import get_db, SessionLocal, engine
+from fastapi import FastAPI
+from .database import SessionLocal, engine
+from .utils import db_groupby_hourly
+from . import models
+from .routes import data, forecast, raw
 
-from sqlalchemy.orm import Session
 
-import crud, models, schemas
 
 models.Base.metadata.create_all(bind=engine)
 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    db = SessionLocal()
+    await db_groupby_hourly(db)
+
     yield
+
     engine.dispose()
 
-app = FastAPI(lifespan=lifespan)
 
-class DataModel(BaseModel):
-    id: int
-    value: float
+app = FastAPI(
+    title="Raindrop Dust",
+    description="FastAPI application providing PM and dust particles data along with environmental elements and weather conditions.",
+    version="0.1.0",
+    lifespan=lifespan
+)
 
-@app.get("/data")
-async def get_data(skip:int=0, limit:int=1, db:Session=Depends(get_db)):
-    weathers = crud.get_hourly(db, skip=skip, limit=limit)
-    return weathers
+app.include_router(data.router)
+app.include_router(forecast.router)
+app.include_router(raw.router)
 
-@app.post("/forecast")
-async def forecast(data: DataModel):
-    # TODO: Implement forecasting logic
-    return {"forecast": "result"}
+
+@app.get("/")
+async def root():
+    return {"message": "Raindrop Dust API!"}

@@ -1,3 +1,49 @@
+from sqlalchemy import text
+
+
+def schematise_hourly_response(list_of_hourly):
+    schematised_data = [
+        {
+            **h.__dict__,
+            "timestamp": h.ts,
+            "coordinates": {
+                "lat": h.lat,
+                "lon": h.lon
+            },
+            "temp": {
+                "average": h.temp,
+                "max": h.temp_max,
+                "min": h.temp_min
+            },
+            "humidity": h.hum,
+            "weather": {
+                "main_condition": h.weather_main,
+                "description": h.weather_con,
+            },
+            "pm_atmospheric": {
+                "pm1_0": h.pm1_0_atm,
+                "pm2_5": h.pm2_5_atm,
+                "pm10_0": h.pm10_0_atm
+            },
+            "pm_factory": {
+                "pm1_0": h.pm1_0,
+                "pm2_5": h.pm2_5,
+                "pm10_0": h.pm10_0
+            },
+            "particles_count": {
+                "pcnt_0_3": h.pcnt_0_3,
+                "pcnt_0_5": h.pcnt_0_5,
+                "pcnt_1_0": h.pcnt_1_0,
+                "pcnt_2_5": h.pcnt_2_5,
+                "pcnt_5_0": h.pcnt_5_0,
+                "pcnt_10_0": h.pcnt_10_0
+            }
+        }
+        for h in list_of_hourly
+    ]
+    return schematised_data
+
+
 DELETE_1 = """
     DELETE FROM hourly
     ORDER BY ts DESC
@@ -5,13 +51,23 @@ DELETE_1 = """
 """
 
 GROUP_HOURLY_SQL_STATEMENT = """
-    INSERT INTO hourly (ts, lat, lon, temp, temp_max, temp_min, hum, weather_main, weather_con,
-                            wind_spd, cloud, rain, light, aqi, pm1_0, pm2_5, pm10_0,
-                            pm1_0_atm, pm2_5_atm, pm10_0_atm, pcnt_0_3, pcnt_0_5,
-                            pcnt_1_0, pcnt_2_5, pcnt_5_0, pcnt_10_0)
+    INSERT INTO hourly (ts, lat, lon, temp, temp_max, temp_min, hum,
+                        weather_main, weather_con, wind_spd, cloud,
+                        rain, light, aqi, pm1_0, pm2_5, pm10_0,
+                        pm1_0_atm, pm2_5_atm, pm10_0_atm, pcnt_0_3,
+                        pcnt_0_5, pcnt_1_0, pcnt_2_5, pcnt_5_0, pcnt_10_0)
         WITH openweather_hourly AS (
             SELECT
-                DATE_ADD('2025-01-01 00:00:00', INTERVAL FLOOR(TIMESTAMPDIFF(HOUR, '2025-01-01 00:00:00', ts)) * 1 HOUR) AS ts_start,
+                DATE_ADD(
+                    '2025-01-01 00:00:00',
+                    INTERVAL FLOOR(
+                        TIMESTAMPDIFF(
+                            HOUR,
+                            '2025-01-01 00:00:00',
+                            ts
+                        )
+                    ) * 1 HOUR
+                ) AS ts_start,
                 AVG(lat) AS lat,
                 AVG(lon) AS lon,
                 AVG(temp) AS temp,
@@ -26,7 +82,16 @@ GROUP_HOURLY_SQL_STATEMENT = """
         ),
         raindropdust_hourly AS (
             SELECT
-                DATE_ADD('2025-01-01 00:00:00', INTERVAL FLOOR(TIMESTAMPDIFF(HOUR, '2025-01-01 00:00:00', ts)) * 1 HOUR) AS ts_start,
+                DATE_ADD(
+                    '2025-01-01 00:00:00',
+                    INTERVAL FLOOR(
+                        TIMESTAMPDIFF(
+                            HOUR,
+                            '2025-01-01 00:00:00',
+                            ts
+                        )
+                    ) * 1 HOUR
+                ) AS ts_start,
                 AVG(temp) AS temp,
                 MAX(temp) AS temp_max,
                 MIN(temp) AS temp_min,
@@ -79,3 +144,13 @@ GROUP_HOURLY_SQL_STATEMENT = """
         INNER JOIN raindropdust_hourly r ON o.ts_start = r.ts_start
         WHERE o.ts_start > (SELECT MAX(ts) FROM hourly)
 """
+
+
+async def db_groupby_hourly(db):
+    try:
+        db.execute(text(DELETE_1))
+        db.commit()
+        db.execute(text(GROUP_HOURLY_SQL_STATEMENT))
+        db.commit()
+    finally:
+        db.close()
