@@ -22,7 +22,12 @@ pm2_5_weather_main = px.box(
     width=1000,
     height=400
 )
-pm10_0_weather_main = px.box(df, x="pm10_0_atm", color="weather_main", width=1000, height=300)
+pm10_0_weather_main = px.box(df,
+                             x="pm10_0_atm",
+                             color="weather_main",
+                             width=1000,
+                             height=300,
+                             labels={'pm10_0_atm': 'PM 2.5 (μg/m^3)', 'weather_main': 'Weather Condition'})
 
 
 # Box plots for pm_atm colored by weather_con
