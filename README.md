@@ -31,7 +31,7 @@ raindrop-dust/
 │   ├── models.py         # Data models
 │   ├── predictor.py      # SVR models
 │   ├── schemas.py        # Response model schemas
-│   └── utils.py            # Helper functions
+│   └── utils.py          # Helper functions
 ├── frontend/             # Streamlit frontend
 │   ├── app.py            # Main frontend application
 │   ├── components/       # UI components
