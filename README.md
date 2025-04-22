@@ -3,8 +3,6 @@
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.95.0-green)](https://fastapi.tiangolo.com/)
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.22.0-red)](https://streamlit.io/)
-[![MicroPython](https://img.shields.io/badge/MicroPython-1.19-yellow)](https://micropython.org/)
-[![Node-RED](https://img.shields.io/badge/Node--RED-3.0.2-orange)](https://nodered.org/)
 [![License](https://img.shields.io/badge/License-MIT-lightgrey)](LICENSE)
 
 ## Overview
