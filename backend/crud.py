@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 from .models import Weather, KidBright, Hourly
@@ -8,34 +9,46 @@ from datetime import datetime, timedelta
 
 def get_raw_primary(db: Session, limit:int=-1, sort:int=0):
     query = db.query(KidBright)
-    query = query.order_by(KidBright.ts.desc()) if sort == 1 else query
-    query = query.limit(limit) if limit != -1 else query
+    try:
+        query = query.order_by(KidBright.ts.desc()) if sort == 1 else query
+        query = query.limit(limit) if limit != -1 else query
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid params")
     return query.all()
 
 
 def get_raw_secondary(db: Session, limit:int=-1, sort:int=0):
     query = db.query(Weather)
-    query = query.order_by(Weather.ts.desc()) if sort == 1 else query
-    query = query.limit(limit) if limit != -1 else query
+    try:
+        query = query.order_by(Weather.ts.desc()) if sort == 1 else query
+        query = query.limit(limit) if limit != -1 else query
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid params")
     return query.all()
 
 
 def get_raw_hourly(db: Session, limit:int=-1, sort:int=0):
     query = db.query(Hourly)
-    query = query.order_by(Hourly.ts.desc()) if sort == 1 else query
-    query = query.limit(limit) if limit != -1 else query
+    try:
+        query = query.order_by(Hourly.ts.desc()) if sort == 1 else query
+        query = query.limit(limit) if limit != -1 else query
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid params")
     return query.all()
 
 
 def get_hourly(db: Session, start_date=None, end_date=None, skip:int=0, limit:int=1):
     query = db.query(Hourly)
-    query = query.filter(Hourly.ts >= start_date) if start_date else query
-    query = query.filter(Hourly.ts < end_date) if end_date else query
-    query = query.order_by(Hourly.ts.desc())
-    query = query.offset(skip)
-    query = query.limit(limit) if limit != -1 else query
-    hourly = query.all()
-    hourly = schematise_hourly_response(hourly)
+    try:
+        query = query.filter(Hourly.ts >= start_date) if start_date else query
+        query = query.filter(Hourly.ts < end_date) if end_date else query
+        query = query.order_by(Hourly.ts.desc())
+        query = query.offset(skip)
+        query = query.limit(limit) if limit != -1 else query
+        hourly = query.all()
+        hourly = schematise_hourly_response(hourly)
+    except:
+        raise HTTPException(status_code=400, detail="Invalid params")
     return hourly
 
 
@@ -46,17 +59,23 @@ def get_summary(db: Session, start_date=None, end_date=None, period=None, date=N
         if date is None:
             date = db.query(Hourly.ts).order_by(Hourly.ts.desc()).first()[0]
         else:
-            date = datetime.fromisoformat(date)
+            try:
+                date = datetime.fromisoformat(date)
+            except ValueError:
+                raise HTTPException(status_code=400, detail="Invalid date")
 
         if period == "weekly":
             end_time = date + timedelta(weeks=1)
         else:
             end_time = date + timedelta(days=1)
     elif sum_type == 1:
-        if start_date is not None:
-            date = datetime.fromisoformat(start_date)
-        if end_date is not None:
-            end_time = datetime.fromisoformat(end_date)
+        try:
+            if start_date is not None:
+                date = datetime.fromisoformat(start_date)
+            if end_date is not None:
+                end_time = datetime.fromisoformat(end_date)
+        except ValueError:
+            raise HTTPException(status_code=400, detail="Invalid date")
 
     if not date:
         date = db.query(Hourly.ts).order_by(Hourly.ts.asc()).first()[0]
