@@ -1,4 +1,4 @@
-# Raindrop-Dust 🌧️💨
+# Raindrop Dust 🌧️💨
 
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.95.0-green)](https://fastapi.tiangolo.com/)
@@ -178,3 +178,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [Streamlit](https://streamlit.io/) for the frontend framework
 - [MicroPython](https://micropython.org/) for sensor programming
 - [Node-RED](https://nodered.org/) for flow-based programming
+
+## GitHub Repository
+[Raindrop Dust](https://github.com/TeerapatTrepopsakulsin/Raindrop-Dust)
