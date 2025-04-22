@@ -3,8 +3,53 @@ import time
 import streamlit as st
 from frontend.components import graph
 
+head_text = "#ECEFCA"
+color_2 = "#94B4C1"
+color_3 = "#547792"
+color_4 = "#213448"
 
-st.header("Explore our Data!")
+st.markdown(f"""
+<style>
+    .main-title {{
+        font-size: 3em;
+        font-weight: bold;
+        color: {color_2};
+        margin-bottom: 0.3em;
+    }}
+
+    .section-title {{
+        font-size: 1.6em;
+        font-weight: bold;
+        color: {color_2};
+        border-bottom: 2px solid #ecf0f1;
+        padding-bottom: 5px;
+        margin-top: 30px;
+        margin-bottom: 10px;
+    }}
+
+    details summary {{
+        font-size: 1.2em;
+        font-weight: bold;
+        background-color: {head_text};
+        color: {color_4};
+        padding: 10px;
+        border-radius: 10px;
+        cursor: pointer;
+    }}
+    
+    details summary:hover {{
+        background-color: {color_3};
+        color: {head_text};
+    }}
+    
+    details[open] summary {{
+        background-color: {color_4};
+        color: {head_text};
+    }}
+</style>
+""", unsafe_allow_html=True)
+
+st.markdown("<div class='main-title'>Explore our Data!</div>", unsafe_allow_html=True)
 
 attr_list = [
         'Timestamp',
@@ -27,7 +72,7 @@ attr_list = [
 ]
 
 with st.container(border=True):
-    st.subheader('Peaked & Bottomed Statistics')
+    st.markdown("<div class='section-title'>📑 Peaked & Bottomed Statistics</div>", unsafe_allow_html=True)
 
     selected_attr = st.selectbox(
         "Select Attribute",
@@ -40,25 +85,27 @@ with st.container(border=True):
         time.sleep(1)
         peaked_data, peaked_val, peaked_time, bottomed_data, bottomed_val, bottomed_time = graph.stats.find_peaked_and_bottomed(selected_attr)
 
-        with st.container(border=True):
-            st.header(f"📈 Most recent Peaked - {selected_attr}")
-            st.subheader(peaked_time)
-            st.title(f"{peaked_val:2f}")
+        col1, col2 = st.columns(2)
+        with col1:
+            with st.container(border=True):
+                st.header(f"📈 Most recent Peaked - {selected_attr}")
+                st.subheader(peaked_time)
+                st.markdown(f"<div class='main-title'>{peaked_val:2f}</div>", unsafe_allow_html=True)
 
-            with st.expander("Dataset"):
-                st.dataframe(peaked_data)
+                with st.expander("Dataset"):
+                    st.dataframe(peaked_data)
+        with col2:
+            with st.container(border=True):
+                st.header(f"📉 Most recent Bottomed - {selected_attr}")
+                st.subheader(bottomed_time)
+                st.markdown(f"<div class='main-title'>{bottomed_val:2f}</div>", unsafe_allow_html=True)
 
-        with st.container(border=True):
-            st.header(f"📉 Most recent Bottomed - {selected_attr}")
-            st.subheader(bottomed_time)
-            st.title(f"{bottomed_val:2f}")
-
-            with st.expander("Dataset"):
-                st.dataframe(bottomed_data)
+                with st.expander("Dataset"):
+                    st.dataframe(bottomed_data)
 
 
 with st.container(border=True):
-    st.subheader('Scatter Plot')
+    st.markdown("<div class='section-title'>⭐ Scatter Plot</div>", unsafe_allow_html=True)
 
     # Hue options
     hue_options = ['None', 'Weather', 'Weather (Detailed)', 'Day of Week']
@@ -120,7 +167,7 @@ with st.container(border=True):
 
 
 with st.container(border=True):
-    st.subheader('Bar Chart')
+    st.markdown("<div class='section-title'>📶 Bar Chart</div>", unsafe_allow_html=True)
 
     # Hue options
     hue_options = ['None', 'Weather', 'Weather (Detailed)', 'Day of Week']
@@ -195,7 +242,7 @@ with st.container(border=True):
             )
 
 with st.container(border=True):
-    st.subheader('Histogram')
+    st.markdown("<div class='section-title'>📊 Histogram</div>", unsafe_allow_html=True)
 
     # Hue options
     hue_options = ['None', 'Weather', 'Weather (Detailed)', 'Day of Week']
@@ -252,13 +299,26 @@ with st.container(border=True):
                 )
             )
 
+st.markdown("<div class='section-title'>❓ Explore more!</div>", unsafe_allow_html=True)
 
-with st.expander("Explore more!"):
-    st.plotly_chart(graph.bar_chart.pm2_5_rain)
-    st.plotly_chart(graph.box_plot.pm10_0_weather_main)
-    st.plotly_chart(graph.box_plot.pm10_0_weather_con)
-    st.plotly_chart(graph.box_plot.pm10_0_day_of_week)
-    st.plotly_chart(graph.heatmap.corr)
-    st.plotly_chart(graph.histogram.day_of_week)
-    st.plotly_chart(graph.histogram.weather_con)
-    st.plotly_chart(graph.histogram.weather_main)
+col1, col2, col3 = st.columns(3)
+with col1:
+    with st.expander("PM 2.5: Rain vs No Rain"):
+        st.plotly_chart(graph.bar_chart.pm2_5_rain)
+with col2:
+    with st.expander("Week"):
+        st.plotly_chart(graph.box_plot.pm10_0_day_of_week)
+        st.plotly_chart(graph.histogram.day_of_week)
+with col3:
+    with st.expander("Correlation"):
+        st.plotly_chart(graph.heatmap.corr)
+
+col1, col2 = st.columns(2)
+with col1:
+    with st.expander("Weather Condition: Main"):
+        st.plotly_chart(graph.box_plot.pm10_0_weather_main)
+        st.plotly_chart(graph.histogram.weather_main)
+with col2:
+    with st.expander("Weather Condition: Detailed"):
+        st.plotly_chart(graph.box_plot.pm10_0_weather_con)
+        st.plotly_chart(graph.histogram.weather_con)

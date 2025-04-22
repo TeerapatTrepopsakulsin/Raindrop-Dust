@@ -8,61 +8,77 @@ from frontend.utils.dataframe import df
 ### Histogram for pm atm
 
 # pm histogram with no hue
-pm1_0 = px.histogram(df, x="pm1_0_atm", title="Histogram of PM 1.0 concentration (µg/m³)", histnorm='percent', width=1000, height=400)
-pm2_5 = px.histogram(df, x="pm2_5_atm", title="Histogram of PM 2.5 concentration (µg/m³)", histnorm='percent', width=1000, height=400)
-pm10_0 = px.histogram(df, x="pm10_0_atm", title="Histogram of PM 10 concentration (µg/m³)", histnorm='percent', width=1000, height=400)
-aqi = px.histogram(df, x="aqi", title="Histogram of AQI", histnorm='percent', width=1000, height=400)
+pm1_0 = px.histogram(df, x="pm1_0_atm", title="Histogram of PM 1.0 concentration (µg/m³)", histnorm='percent', width=1000, height=400,
+                     labels={'pm1_0_atm': 'PM 1.0 (μg/m^3)'})
+pm2_5 = px.histogram(df, x="pm2_5_atm", title="Histogram of PM 2.5 concentration (µg/m³)", histnorm='percent', width=1000, height=400,
+                     labels={'pm2_5_atm': 'PM 2.5 (μg/m^3)'})
+pm10_0 = px.histogram(df, x="pm10_0_atm", title="Histogram of PM 10 concentration (µg/m³)", histnorm='percent', width=1000, height=400,
+                      labels={'pm10_0_atm': 'PM 10.0 (μg/m^3)'})
+aqi = px.histogram(df, x="aqi", title="Histogram of AQI", histnorm='percent', width=1000, height=400,
+                   labels={'aqi': 'AQI'})
 
 
 ### Histogram for pm atm with categorical data
 
 # pm1_0_atm histograms
 pm1_0_weather_main = px.histogram(
-    df, x="pm1_0_atm", title="Histogram of pm1_0_atm", color="weather_main", width=1000, height=400
+    df, x="pm1_0_atm", title="Histogram of pm1_0_atm", color="weather_main", width=1000, height=400,
+    labels={'pm1_0_atm': 'PM 1.0 (μg/m^3)', 'weather_main': 'Weather Condition'}
 )
 
 pm1_0_weather_con = px.histogram(
-    df, x="pm1_0_atm", title="Histogram of pm1_0_atm", color="weather_con", width=1000, height=400
+    df, x="pm1_0_atm", title="Histogram of pm1_0_atm", color="weather_con", width=1000, height=400,
+    labels={'pm1_0_atm': 'PM 1.0 (μg/m^3)', 'weather_con': 'Weather Condition'}
 )
 
 pm1_0_day_of_week = px.histogram(
-    df, x="pm1_0_atm", title="Histogram of pm1_0_atm", color="day_of_week", width=1000, height=400
+    df, x="pm1_0_atm", title="Histogram of pm1_0_atm", color="day_of_week", width=1000, height=400,
+    labels={'pm1_0_atm': 'PM 1.0 (μg/m^3)', 'day_of_week': 'Day Of Week'}
 )
 
 
 # pm2_5_atm histograms
 pm2_5_weather_main = px.histogram(
-    df, x="pm2_5_atm", title="Histogram of pm2_5_atm", color="weather_main", width=1000, height=400
+    df, x="pm2_5_atm", title="Histogram of pm2_5_atm", color="weather_main", width=1000, height=400,
+    labels={'pm2_5_atm': 'PM 2.5 (μg/m^3)', 'weather_main': 'Weather Condition'}
 )
 
 pm2_5_weather_con = px.histogram(
-    df, x="pm2_5_atm", title="Histogram of pm2_5_atm", color="weather_con", width=1000, height=400
+    df, x="pm2_5_atm", title="Histogram of pm2_5_atm", color="weather_con", width=1000, height=400,
+    labels={'pm2_5_atm': 'PM 2.5 (μg/m^3)', 'weather_con': 'Weather Condition'}
 )
 
 pm2_5_day_of_week = px.histogram(
-    df, x="pm2_5_atm", title="Histogram of pm2_5_atm", color="day_of_week", width=1000, height=400
+    df, x="pm2_5_atm", title="Histogram of pm2_5_atm", color="day_of_week", width=1000, height=400,
+    labels={'pm2_5_atm': 'PM 2.5 (μg/m^3)', 'day_of_week': 'Day Of Week'}
 )
 
 
 # pm10_0_atm histograms
 pm10_0_weather_main = px.histogram(
-    df, x="pm10_0_atm", title="Histogram of pm10_0_atm", color="weather_main", width=1000, height=400
+    df, x="pm10_0_atm", title="Histogram of pm10_0_atm", color="weather_main", width=1000, height=400,
+    labels={'pm10_0_atm': 'PM 10.0 (μg/m^3)', 'weather_main': 'Weather Condition'}
 )
 
 pm10_0_weather_con = px.histogram(
-    df, x="pm10_0_atm", title="Histogram of pm10_0_atm", color="weather_con", width=1000, height=400
+    df, x="pm10_0_atm", title="Histogram of pm10_0_atm", color="weather_con", width=1000, height=400,
+    labels={'pm10_0_atm': 'PM 10.0 (μg/m^3)', 'weather_con': 'Weather Condition'}
 )
 
 pm10_0_day_of_week = px.histogram(
-    df, x="pm10_0_atm", title="Histogram of pm10_0_atm", color="day_of_week", width=1000, height=400
+    df, x="pm10_0_atm", title="Histogram of pm10_0_atm", color="day_of_week", width=1000, height=400,
+    labels={'pm10_0_atm': 'PM 10.0 (μg/m^3)', 'day_of_week': 'Day Of Week'}
 )
 
 
 # Frequency histograms for categorical attributes
 
-weather_main = px.histogram(df, x="weather_main", histnorm='percent', title="Frequency of weather_main", width=1000, height=400)
-weather_con = px.histogram(df, x="weather_con", histnorm='percent', title="Frequency of weather_con", width=1000, height=400)
-day_of_week = px.histogram(df, x="day_of_week", histnorm='percent', title="Frequency of day_of_week", width=1000, height=400)
+weather_main = px.histogram(df, x="weather_main", histnorm='percent', title="Frequency of weather_main", width=1000, height=400,
+                            labels={'weather_main': 'Weather Condition'})
+weather_con = px.histogram(df, x="weather_con", histnorm='percent', title="Frequency of weather_con", width=1000, height=400,
+                           labels={'weather_con': 'Weather Condition'})
+day_of_week = px.histogram(df, x="day_of_week", histnorm='percent', title="Frequency of day_of_week", width=1000, height=400,
+                           labels={'day_of_week': 'Day Of Week'})
 
 
 def generate_histogram(sel_attr: str, sel_hue: str, start_datetime: datetime, end_datetime: datetime, init_df=df):
