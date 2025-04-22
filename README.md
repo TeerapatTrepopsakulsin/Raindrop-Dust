@@ -96,6 +96,12 @@ The backend provides RESTful API endpoints for data sharing and analytics
 
 The Streamlit dashboard visualizes the data and provides interactive analytics
 
+#### Visualisation Pages
+- **Current**: Show real-time current data and the recent data within day/week
+- **Exploration**: Interactive visualisation dashboard for data exploration
+- **Descriptive**: Descriptive data storytelling and correlations
+- **Predictive**: Forcasting data, 1 day and 3 days
+
 ## Installation and Setup
 
 ### Prerequisites
