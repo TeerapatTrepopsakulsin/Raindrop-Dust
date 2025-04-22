@@ -8,8 +8,12 @@
 [![License](https://img.shields.io/badge/License-MIT-lightgrey)](LICENSE)
 
 ## Overview
+The PM 2.5 situation in Bangkok has become increasingly concerning, especially around areas like Kasetsart University.
+To raise awareness about air quality conditions, we focus on monitoring PM 2.5 levels and exploring their relationship with environmental factors such as rainfall and weather conditions.
+By collecting data from locations near the KU campus, we aim to provide both interactive visualizations and user-friendly data sharing APIs.
+While the information is most relevant for those in the Kasetsart area, the insights gained from analyzing the potential relationship between PM 2.5 and environmental factors can be valuable to a broader audience as well.
 
-Raindrop-Dust is an environmental monitoring system that explores the connection between PM 2.5 particulate matter and various environmental variables such as temperature, light intensity, humidity, and weather conditions. The project leverages IoT devices, data analytics, and machine learning to provide insights into patterns affecting PM 2.5 levels and predict future air quality.
+Raindrop Dust is an environmental monitoring web application powered by FastAPI and Streamlit that explores the connection between PM 2.5 particulate matter and various environmental variables like temperature, rainfall, humidity, and weather conditions. The project leverages IoT devices, data analytics, and machine learning to provide insights into patterns affecting PM 2.5 levels and forecast future air quality via API endpoints and interactive visualisation dashboard.
 
 ## Collaborators and Affiliations
 | Name             | Department          | Faculty             | University                  |
@@ -69,7 +73,7 @@ Database → FastAPI → Streamlit Dashboard
 The project uses KidBright with attached sensors to collect PM and environmental Primary data, and Weather API to collect weather Secondary data:
 
 - **PM 2.5 Particulate Matter**: Using PMS7003 sensors
-- **Temperature & Humidity**: Using DHT22 sensors
+- **Temperature & Humidity**: Using KY-015 sensors
 - **Light Intensity**: Using Kidbrught
 - **Weather Conditions**: Call [OpenWeather API](https://openweathermap.org/current)
 
