@@ -48,8 +48,73 @@ custom_cmap = mcolors.LinearSegmentedColormap.from_list(
     "white_to_blue", [head_text, color_2]
 )
 
-def show_table(df, key_prefix=""):
-    if st.toggle("❇️ Show full table (might be slow!)", value=False, key=f"{key_prefix}_toggle"):
+pri  = """
+**Column Descriptions**
+- ts: timestamp
+- temp: Temperature (C°)
+- light: Light (Lux)
+- hum: Humidity (%)
+- aqi: Air Quality Index
+- pm1_0: PM 1.0 concentration μ g/m3 (factory environment)
+- pm2_5: PM 2.5 concentration μ g/m3 (factory environment)
+- pm10_0: PM 10.0 concentration μ g/m3 (factory environment)
+- pm1_0_atm: PM 1.0 concentration μ g/m3 (atmospheric environment)
+- pm2_5_atm: PM 2.5 concentration μ g/m3 (atmospheric environment)
+- pm10_0_atm: PM 10.0 concentration μ g/m3 (atmospheric environment)
+- pcnt_0_3: Particle count of diameter beyond 0.3 um in 0.1 liter or air
+- pcnt_0_5: Particle count of diameter beyond 0.5 um in 0.1 liter or air
+- pcnt_1_0: Particle count of diameter beyond 1.0 um in 0.1 liter or air
+- pcnt_2_5: Particle count of diameter beyond 2.5 um in 0.1 liter or air
+- pcnt_5_0: Particle count of diameter beyond 10.0 um in 0.1 liter or air
+- pcnt_10_0: Particle count of diameter beyond 10.0 um in 0.1 liter or air
+"""
+
+sec = """
+**Column Descriptions**
+- ts: timestamp
+- lat: Latitude
+- lon: Longitude
+- temp: Temperature (C°)
+- hum: Humidity (%)
+- weather_main: Group of weather parameters (Rain, Snow, Clouds etc.)
+- weather_con: Weather condition within the group
+- wind_spd: Wind speed (m/s)
+- cloud: Cloudiness (%)
+- rain: Precipitation (where available) (mm/h)
+"""
+
+hour = """
+**Column Descriptions**
+- ts: timestamp
+- lat: Latitude
+- lon: Longitude
+- temp: Temperature (C°)
+- hum: Humidity (%)
+- weather_main: Group of weather parameters (Rain, Snow, Clouds etc.)
+- weather_con: Weather condition within the group
+- temp_max: Maximum Temperature (C°)
+- temp_min: Minimum Temperature (C°)
+- wind_spd: Wind speed (m/s)
+- cloud: Cloudiness (%)
+- rain: Precipitation (where available) (mm/h)
+- light: Light (Lux)
+- aqi: Air Quality Index
+- pm1_0: PM 1.0 concentration μ g/m3 (factory environment)
+- pm2_5: PM 2.5 concentration μ g/m3 (factory environment)
+- pm10_0: PM 10.0 concentration μ g/m3 (factory environment)
+- pm1_0_atm: PM 1.0 concentration μ g/m3 (atmospheric environment)
+- pm2_5_atm: PM 2.5 concentration μ g/m3 (atmospheric environment)
+- pm10_0_atm: PM 10.0 concentration μ g/m3 (atmospheric environment)
+- pcnt_0_3: Particle count of diameter beyond 0.3 um in 0.1 liter or air
+- pcnt_0_5: Particle count of diameter beyond 0.5 um in 0.1 liter or air
+- pcnt_1_0: Particle count of diameter beyond 1.0 um in 0.1 liter or air
+- pcnt_2_5: Particle count of diameter beyond 2.5 um in 0.1 liter or air
+- pcnt_5_0: Particle count of diameter beyond 10.0 um in 0.1 liter or air
+- pcnt_10_0: Particle count of diameter beyond 10.0 um in 0.1 liter or air
+"""
+
+def show_table(df, text, key_prefix=""):
+    if st.toggle("❇️ Show full table (might be slow!)", value=False, key=f"{key_prefix}_toggle", help=text):
         df_to_show = df
     else:
         df_to_show = df.head(50)
@@ -87,10 +152,10 @@ def show_table(df, key_prefix=""):
 st.markdown("<div class='main-title'>Dataset & Tables</div>", unsafe_allow_html=True)
 
 with st.expander("Primary Table", icon="📝", expanded=True):
-    show_table(pmr_df, key_prefix="pmr")
+    show_table(pmr_df, pri, key_prefix="pmr")
 
 with st.expander("Secondary Table", icon="💻"):
-    show_table(snd_df, key_prefix="snd")
+    show_table(snd_df, sec, key_prefix="snd")
 
 with st.expander("Hourly Table", icon="⏰"):
-    show_table(hour_df, key_prefix="hour")
+    show_table(hour_df, hour, key_prefix="hour")
