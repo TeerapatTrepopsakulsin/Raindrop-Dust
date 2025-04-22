@@ -1,9 +1,6 @@
 config==0.5.1
-dht==0.1
 fastapi==0.115.12
-machine==0.0.1
 matplotlib==3.8.4
-network==0.1
 numpy==2.2.5
 pandas==2.2.3
 plotly==6.0.1
