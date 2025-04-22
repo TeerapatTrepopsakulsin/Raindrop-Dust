@@ -116,7 +116,7 @@ The Streamlit dashboard visualizes the data and provides interactive analytics
 - **Current**: Show real-time current data and the recent data within day/week
 - **Exploration**: Interactive visualisation dashboard for data exploration
 - **Descriptive**: Descriptive data storytelling and correlations
-- **Predictive**: Forcasting data, 1 day and 3 days
+- **Predictive**: Forecasting data, 1 day and 3 days
 
 ## Installation and Setup
 
