@@ -1,3 +1,4 @@
+"""/forecast endpoints, predictive data."""
 from fastapi import APIRouter, Depends
 from .. import schemas
 from sqlalchemy.orm import Session

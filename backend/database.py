@@ -1,3 +1,4 @@
+"""Database connection."""
 import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -14,6 +15,7 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
 def get_db():
+    """Get the database connection/session."""
     db = SessionLocal()
     try:
         yield db

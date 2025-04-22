@@ -1,3 +1,4 @@
+"""Schemas for the API response model."""
 from datetime import datetime
 from pydantic import BaseModel
 

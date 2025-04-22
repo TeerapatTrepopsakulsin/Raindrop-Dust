@@ -1,3 +1,4 @@
+"""/raw endpoints, raw data from the database."""
 from fastapi import APIRouter, Depends
 from .. import crud
 from sqlalchemy.orm import Session

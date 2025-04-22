@@ -1,3 +1,4 @@
+"""Descriptive data storytelling and correlations."""
 import time
 import streamlit as st
 from frontend.components import graph

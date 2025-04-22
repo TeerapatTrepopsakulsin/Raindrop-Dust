@@ -1,3 +1,4 @@
+"""/data endpoints, descriptive data."""
 from fastapi import APIRouter, Depends
 from .. import schemas, crud
 from sqlalchemy.orm import Session
@@ -22,7 +23,7 @@ async def get_latest_data(limit: int = 1, db: Session = Depends(get_db)):
 @router.get("", response_model=list[schemas.HourlyResponse])
 async def get_data(start_date: str | None = None, end_date: str | None = None, skip: int = 0, limit: int = 1,
                    db: Session = Depends(get_db)):
-    """ Return records response of the data, sorting from the latest record.
+    """Return records response of the data, sorting from the latest record.
 
     :param start_date: yyyy-MM-dd, indicate the beginning of the period/interval (Inclusive)
     :param end_date: yyyy-MM-dd, indicate the ending of the period/interval (Exclusive)
@@ -57,7 +58,7 @@ async def get_particle(start_date: str | None = None, end_date: str | None = Non
 
 @router.get("/summary", response_model=list[schemas.SummaryResponse])
 async def get_summary(period: str | None = None, date: str | None = None, db: Session = Depends(get_db)):
-    """ Return a descriptive summary response of the data.
+    """Return a descriptive summary response of the data.
 
     :param period: weekly or daily, indicate the summary period/interval
     :param date: yyyy-MM-dd, the date that will be included in the summary response
@@ -69,7 +70,7 @@ async def get_summary(period: str | None = None, date: str | None = None, db: Se
 
 @router.get("/summary/custom", response_model=list[schemas.SummaryResponse])
 async def get_custom_summary(start_date: str | None = None, end_date: str | None = None, db: Session = Depends(get_db)):
-    """ Return a descriptive summary response of the data.
+    """Return a descriptive summary response of the data.
 
     :param start_date: yyyy-MM-dd, indicate the beginning of the summary period/interval (Inclusive)
     :param end_date: yyyy-MM-dd, indicate the ending of the summary period/interval (Exclusive)

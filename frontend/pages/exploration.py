@@ -1,3 +1,4 @@
+"""Interactive visualisation dashboard for data exploration."""
 from datetime import datetime
 import time
 import streamlit as st

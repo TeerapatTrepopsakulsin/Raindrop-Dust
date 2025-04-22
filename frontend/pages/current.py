@@ -1,3 +1,4 @@
+"""Show current/latest/recent data."""
 import streamlit as st
 from frontend.components import graph
 import matplotlib.colors as mcolors

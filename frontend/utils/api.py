@@ -1,3 +1,4 @@
+"""Get the data from backend."""
 import os
 import requests
 from dotenv import load_dotenv

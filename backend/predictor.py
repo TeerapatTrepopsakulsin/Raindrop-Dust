@@ -1,3 +1,4 @@
+"""SVR models construction for predicting the PM levels."""
 from . import crud
 from .database import SessionLocal
 
@@ -107,7 +108,7 @@ df[binary_cols] = df[binary_cols].astype(int)
 
 # Lagged Features
 def get_lagged_data(x, t: np.timedelta64, f: str):
-    """ Get the lagged data of the specify delayed timedelta and feature."""
+    """Get the lagged data of the specify delayed timedelta and feature."""
     target = x['ts'] - t
     target_df = df[df['ts'] == target]
     return target_df[f].values[0] if len(target_df) > 0 else np.nan
@@ -120,7 +121,7 @@ for col in ['pm2_5_atm', 'pm10_0_atm', 'aqi']:
 
 # Lead Features
 def get_lead_data(x, t: np.timedelta64, f: str):
-    """ Get the lead data of the specify lead timedelta and feature."""
+    """Get the lead data of the specify lead timedelta and feature."""
     target = x['ts'] + t
     target_df = df[df['ts'] == target]
     return target_df[f].values[0] if len(target_df) > 0 else np.nan

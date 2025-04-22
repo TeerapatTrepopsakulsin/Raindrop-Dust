@@ -1,3 +1,4 @@
+"""Database operation and query."""
 from fastapi import HTTPException
 from sqlalchemy import func
 from sqlalchemy.orm import Session
@@ -8,6 +9,12 @@ from datetime import datetime, timedelta
 
 
 def get_raw_primary(db: Session, limit: int = -1, sort: int = 0):
+    """ Get the primary data from the database.
+
+    :param db: Session
+    :param limit: int, limits the number of rows to return
+    :param sort: int, 0 ascending, 1 descending
+    """
     query = db.query(KidBright)
     try:
         query = query.order_by(KidBright.ts.desc()) if sort == 1 else query
@@ -18,6 +25,12 @@ def get_raw_primary(db: Session, limit: int = -1, sort: int = 0):
 
 
 def get_raw_secondary(db: Session, limit: int = -1, sort: int = 0):
+    """ Get the secondary data from the database.
+
+    :param db: Session
+    :param limit: int, limits the number of rows to return
+    :param sort: int, 0 ascending, 1 descending
+    """
     query = db.query(Weather)
     try:
         query = query.order_by(Weather.ts.desc()) if sort == 1 else query
@@ -28,6 +41,12 @@ def get_raw_secondary(db: Session, limit: int = -1, sort: int = 0):
 
 
 def get_raw_hourly(db: Session, limit: int = -1, sort: int = 0):
+    """ Get the hourly data from the database.
+
+    :param db: Session
+    :param limit: int, limits the number of rows to return
+    :param sort: int, 0 ascending, 1 descending
+    """
     query = db.query(Hourly)
     try:
         query = query.order_by(Hourly.ts.desc()) if sort == 1 else query
@@ -38,6 +57,14 @@ def get_raw_hourly(db: Session, limit: int = -1, sort: int = 0):
 
 
 def get_hourly(db: Session, start_date=None, end_date=None, skip: int = 0, limit: int = 1):
+    """ Get the hourly data from the database.
+
+    :param db: Session
+    :param start_date: yyyy-MM-dd, indicate the beginning of the period/interval (Inclusive)
+    :param end_date: yyyy-MM-dd, indicate the ending of the period/interval (Exclusive)
+    :param limit: int, limits the number of rows to return
+    :param skip: int, the number of rows to skip
+    """
     query = db.query(Hourly)
     try:
         query = query.filter(Hourly.ts >= start_date) if start_date else query
@@ -53,6 +80,15 @@ def get_hourly(db: Session, start_date=None, end_date=None, skip: int = 0, limit
 
 
 def get_summary(db: Session, start_date=None, end_date=None, period=None, date=None, sum_type=None):
+    """ Get the summary data from the hourly table in the database.
+
+    :param db: Session
+    :param start_date: yyyy-MM-dd, indicate the beginning of the period/interval (Inclusive)
+    :param end_date: yyyy-MM-dd, indicate the ending of the period/interval (Exclusive)
+    :param period: str, weekly or daily, indicate the summary period/interval
+    :param date: yyyy-MM-dd, indicate the beginning of the period/interval (Inclusive)
+    :param sum_type: int, 0 /summary endpoint, 1 /summary/custom endpoint
+    """
     end_time = None
 
     if sum_type == 0:
