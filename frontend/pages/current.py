@@ -99,10 +99,9 @@ with latest_tab:
     with col3:
         st.image("pic/sky.jpg", use_container_width=True)
 
-    st.markdown("<div class='section-title'>PM</div>", unsafe_allow_html=True)
     col1, col2 = st.columns(2)
     with col1:
-        st.markdown("<div class='section-title'>🌀 Atmospheric</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title'>🌀 PM: Atmospheric</div>", unsafe_allow_html=True)
         st.metric("PM 1.0 (µg/m³)", f"{latest_df['pm1_0_atm']:.2f}", f"{delta_df['pm1_0_atm']:.2f}"
                   , border=True, help="KidBright")
         st.metric("PM 2.5 (µg/m³)", f"{latest_df['pm2_5_atm']:.2f}", f"{delta_df['pm2_5_atm']:.2f}"
@@ -110,7 +109,7 @@ with latest_tab:
         st.metric("PM 10.0 (µg/m³)", f"{latest_df['pm10_0_atm']:.2f}", f"{delta_df['pm10_0_atm']:.2f}"
                   , border=True, help="KidBright")
     with col2:
-        st.markdown("<div class='section-title'>🏭 Factory Sensor</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title'>🏭 PM: Factory Sensor</div>", unsafe_allow_html=True)
         st.metric("PM 1.0 (µg/m³)", f"{latest_df['pm1_0']:.2f}³", f"{delta_df['pm1_0']:.2f}"
                   , border=True, help="KidBright")
         st.metric("PM 2.5 (µg/m³)", f"{latest_df['pm2_5']:.2f}", f"{delta_df['pm2_5']:.2f}"

@@ -79,7 +79,7 @@ with oneday_tab:
         st.metric("PM 10.0 (µg/m³)", f"{forecast_1d.loc['max', 'pm10_0']:.2f}"
                     , border=True, help="KidBright")
     with col4:
-        st.image("pic/air_po.png", use_container_width=True)
+        st.image("pic/air_po.jpg", use_container_width=True)
 
     st.markdown("<div class='section-title'>📈 Trends</div>", unsafe_allow_html=True)
     st.plotly_chart(graph.line_graph.pm_forecast1d, use_container_width=True)
@@ -114,7 +114,7 @@ with threedays_tab:
         st.metric("PM 10.0 (µg/m³)", f"{forecast_3d.loc['max', 'pm10_0']:.2f}"
                   , border=True, help="KidBright")
     with col4:
-        st.image("pic/air_po.png", use_container_width=True)
+        st.image("pic/air_po.jpg", use_container_width=True)
 
     st.markdown("<div class='section-title'>📈 Trends</div>", unsafe_allow_html=True)
     st.plotly_chart(graph.line_graph.pm_forecast3d, use_container_width=True)
