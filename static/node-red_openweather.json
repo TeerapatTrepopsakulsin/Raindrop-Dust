@@ -1,0 +1,194 @@
+[
+    {
+        "id": "409372980c17e2d0",
+        "type": "tab",
+        "label": "Flow 5",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "12155eb1599edca6",
+        "type": "http request",
+        "z": "409372980c17e2d0",
+        "name": "OpenWeather",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://api.openweathermap.org/data/2.5/weather?lat=13.84474491&lon=100.56421035&appid={yourAPIKey}&units=metric",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 380,
+        "y": 200,
+        "wires": [
+            [
+                "f421a6042117bb34"
+            ]
+        ]
+    },
+    {
+        "id": "f421a6042117bb34",
+        "type": "json",
+        "z": "409372980c17e2d0",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 530,
+        "y": 200,
+        "wires": [
+            [
+                "3747803cd19c6eba"
+            ]
+        ]
+    },
+    {
+        "id": "3747803cd19c6eba",
+        "type": "function",
+        "z": "409372980c17e2d0",
+        "name": "Environmental Variables",
+        "func": "msg.payload.lat = msg.payload.coord.lat\nmsg.payload.lon = msg.payload.coord.lon\nmsg.payload.weather_main = msg.payload.weather[0].main\nmsg.payload.weather_con = msg.payload.weather[0].description\nmsg.payload.temp = msg.payload.main.temp\nmsg.payload.hum = msg.payload.main.humidity\nmsg.payload.wind_spd = msg.payload.wind.speed\nmsg.payload.cloud = msg.payload.clouds.all\n\nif (msg.payload.rain == null) {\n    msg.payload.rainmmh = 0\n}\nelse {\n    msg.payload.rainmmh = msg.payload.rain[\"1h\"]\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 710,
+        "y": 200,
+        "wires": [
+            [
+                "3e6c1e0bf0271017"
+            ]
+        ]
+    },
+    {
+        "id": "1341e511695aa166",
+        "type": "inject",
+        "z": "409372980c17e2d0",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "600",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "iso",
+        "payloadType": "date",
+        "x": 190,
+        "y": 200,
+        "wires": [
+            [
+                "12155eb1599edca6"
+            ]
+        ]
+    },
+    {
+        "id": "5bf98901b411aa09",
+        "type": "mysql",
+        "z": "409372980c17e2d0",
+        "mydb": "4fb8df5a9ebe966f",
+        "name": "",
+        "x": 1240,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3e6c1e0bf0271017",
+        "type": "template",
+        "z": "409372980c17e2d0",
+        "name": "INSERT",
+        "field": "topic",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "INSERT INTO openweather (lat, lon, temp, hum, weather_main, weather_con, wind_spd, cloud, rain)\n\nVALUES ({{payload.lat}}, {{payload.lon}}, {{payload.temp}}, {{payload.hum}},\"{{payload.weather_main}}\", \"{{payload.weather_con}}\", {{payload.wind_spd}}, {{payload.cloud}}, {{payload.rainmmh}});",
+        "output": "str",
+        "x": 900,
+        "y": 200,
+        "wires": [
+            [
+                "5ad59ddad582e783"
+            ]
+        ]
+    },
+    {
+        "id": "5ad59ddad582e783",
+        "type": "delay",
+        "z": "409372980c17e2d0",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "10",
+        "rateUnits": "minute",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 1060,
+        "y": 200,
+        "wires": [
+            [
+                "5bf98901b411aa09"
+            ]
+        ]
+    },
+    {
+        "id": "43f07435a7a7974e",
+        "type": "inject",
+        "z": "409372980c17e2d0",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 220,
+        "y": 280,
+        "wires": [
+            [
+                "12155eb1599edca6"
+            ]
+        ]
+    },
+    {
+        "id": "4fb8df5a9ebe966f",
+        "type": "MySQLdatabase",
+        "name": "",
+        "host": "iot.cpe.ku.ac.th",
+        "port": "3306",
+        "db": "b6610545324",
+        "tz": "",
+        "charset": "UTF8"
+    }
+]

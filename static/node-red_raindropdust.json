@@ -1,0 +1,145 @@
+[
+    {
+        "id": "36fa63fda31b5025",
+        "type": "tab",
+        "label": "Flow 3",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "d515522e3e631a84",
+        "type": "mysql",
+        "z": "36fa63fda31b5025",
+        "mydb": "4fb8df5a9ebe966f",
+        "name": "",
+        "x": 800,
+        "y": 480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "28aae6c8f23728ab",
+        "type": "template",
+        "z": "36fa63fda31b5025",
+        "name": "INSERT",
+        "field": "topic",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "INSERT INTO raindropdust (temp, light, hum, aqi, pm1_0, pm2_5, pm10_0, pm1_0_atm, pm2_5_atm, pm10_0_atm, pcnt_0_3, pcnt_0_5, pcnt_1_0, pcnt_2_5, pcnt_5_0, pcnt_10_0)\nVALUES ({{payload.temp}}, {{payload.light}}, {{payload.hum}}, {{payload.aqi}}, {{payload.pm1_0}}, {{payload.pm2_5}}, {{payload.pm10_0}}, {{payload.pm1_0_atm}}, {{payload.pm2_5_atm}}, {{payload.pm10_0_atm}}, {{payload.pcnt_0_3}}, {{payload.pcnt_0_5}}, {{payload.pcnt_1_0}}, {{payload.pcnt_2_5}}, {{payload.pcnt_5_0}}, {{payload.pcnt_10_0}});\n",
+        "output": "str",
+        "x": 500,
+        "y": 400,
+        "wires": [
+            [
+                "afbfb45d0927e120",
+                "6e6a2ebbba461cd7"
+            ]
+        ]
+    },
+    {
+        "id": "7fe6e91815a4cde7",
+        "type": "mqtt in",
+        "z": "36fa63fda31b5025",
+        "name": "",
+        "topic": "b6610545324/raindropdust",
+        "qos": "0",
+        "datatype": "auto-detect",
+        "broker": "210343275e868c5f",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 230,
+        "y": 400,
+        "wires": [
+            [
+                "28aae6c8f23728ab"
+            ]
+        ]
+    },
+    {
+        "id": "afbfb45d0927e120",
+        "type": "debug",
+        "z": "36fa63fda31b5025",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 520,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "6e6a2ebbba461cd7",
+        "type": "delay",
+        "z": "36fa63fda31b5025",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "10",
+        "rateUnits": "minute",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 570,
+        "y": 500,
+        "wires": [
+            [
+                "d515522e3e631a84"
+            ]
+        ]
+    },
+    {
+        "id": "4fb8df5a9ebe966f",
+        "type": "MySQLdatabase",
+        "name": "",
+        "host": "iot.cpe.ku.ac.th",
+        "port": "3306",
+        "db": "b6610545324",
+        "tz": "",
+        "charset": "UTF8"
+    },
+    {
+        "id": "210343275e868c5f",
+        "type": "mqtt-broker",
+        "name": "No Broker, just Broke",
+        "broker": "iot.cpe.ku.ac.th",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    }
+]
