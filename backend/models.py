@@ -1,7 +1,11 @@
+"""Data models."""
 from sqlalchemy import Column, Integer, String, Float, DateTime
 from .database import Base
 
+
 class Weather(Base):
+    """Model co-response to the openweather table (secondary data)."""
+
     __tablename__ = "openweather"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -21,6 +25,8 @@ class Weather(Base):
 
 
 class KidBright(Base):
+    """Model co-response to the raindropdust table (primary data)."""
+
     __tablename__ = "raindropdust"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -47,7 +53,9 @@ class KidBright(Base):
 
 
 class Hourly(Base):
+    """Model co-response to the hourly table (joined/integrated table)."""
     __tablename__ = "hourly"
+
     id = Column(Integer, primary_key=True, index=True)
     ts = Column(DateTime, index=True)
     lat = Column(Float)

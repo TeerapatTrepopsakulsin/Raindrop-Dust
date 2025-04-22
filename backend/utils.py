@@ -1,7 +1,9 @@
+"""Helper functions."""
 from sqlalchemy import text
 
 
 def schematise_hourly_response(list_of_hourly):
+    """Schematise the hourly object into the desired format."""
     schematised_data = [
         {
             **h.__dict__,
@@ -147,6 +149,7 @@ GROUP_HOURLY_SQL_STATEMENT = """
 
 
 async def db_groupby_hourly(db):
+    """Hourly table processing."""
     try:
         db.execute(text(DELETE_1))
         db.commit()

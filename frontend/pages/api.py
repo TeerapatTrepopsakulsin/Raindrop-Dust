@@ -1,3 +1,4 @@
+"""API page for calling backend API."""
 import streamlit as st
 from frontend.utils.api import get_api_res
 

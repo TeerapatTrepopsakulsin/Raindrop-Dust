@@ -1,3 +1,4 @@
+"""Forcasting data."""
 import streamlit as st
 from frontend.components import graph
 

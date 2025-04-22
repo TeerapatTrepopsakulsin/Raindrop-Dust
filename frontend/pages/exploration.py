@@ -1,3 +1,4 @@
+"""Interactive visualisation dashboard for data exploration."""
 from datetime import datetime
 import time
 import streamlit as st
@@ -72,7 +73,25 @@ attr_list = [
 ]
 
 with st.container(border=True):
-    st.markdown("<div class='section-title'>📑 Peaked & Bottomed Statistics</div>", unsafe_allow_html=True)
+    peak_help = """
+# Peaked & Bottomed Statistics
+
+- **Select attribute**
+
+### Display
+- **Peaked**
+  - Peaked date and value of the attribute
+  - The dataset of the peak day
+
+- **Bottomed**
+  - Bottomed date and value of the attribute
+  - The dataset of the bottom day
+"""
+    st.markdown(
+        "<div class='section-title'>📑 Peaked & Bottomed Statistics</div>",
+        unsafe_allow_html=True,
+        help=peak_help
+    )
 
     selected_attr = st.selectbox(
         "Select Attribute",
@@ -105,7 +124,22 @@ with st.container(border=True):
 
 
 with st.container(border=True):
-    st.markdown("<div class='section-title'>⭐ Scatter Plot</div>", unsafe_allow_html=True)
+    scatter_help = """
+# Scatter Plot
+
+- **Select categorical hue**
+- **Select Datetime Range**
+- **Select exactly 2 attributes**
+
+### Display
+
+- Scatter plot of the 2 attributes with the selected hue, using data from the specified datetime range.
+"""
+    st.markdown(
+        "<div class='section-title'>⭐ Scatter Plot</div>",
+        unsafe_allow_html=True,
+        help=scatter_help
+    )
 
     # Hue options
     hue_options = ['None', 'Weather', 'Weather (Detailed)', 'Day of Week']
@@ -167,7 +201,23 @@ with st.container(border=True):
 
 
 with st.container(border=True):
-    st.markdown("<div class='section-title'>📶 Bar Chart</div>", unsafe_allow_html=True)
+    bar_help = """
+# Bar Chart
+
+- **Select categorical hue**
+- **Select bar mode** (how to display a bar chart)
+- **Select Datetime Range**
+- **Select attribute**
+
+### Display
+
+- Bar chart with the specified mode of the attribute statistics, including `mean`, `median`, `mode`, `min`, and `max` with the selected hue, using data from the specified datetime range.
+"""
+    st.markdown(
+        "<div class='section-title'>📶 Bar Chart</div>",
+        unsafe_allow_html=True,
+        help=bar_help
+    )
 
     # Hue options
     hue_options = ['None', 'Weather', 'Weather (Detailed)', 'Day of Week']
@@ -242,7 +292,22 @@ with st.container(border=True):
             )
 
 with st.container(border=True):
-    st.markdown("<div class='section-title'>📊 Histogram</div>", unsafe_allow_html=True)
+    hist_help = """
+# Histogram
+
+- **Select categorical hue**
+- **Select Datetime Range**
+- **Select attribute**
+
+### Display
+
+- Histogram (Density mode) of the attribute with the selected hue, using data from the specified datetime range.
+"""
+    st.markdown(
+        "<div class='section-title'>📊 Histogram</div>",
+        unsafe_allow_html=True,
+        help=hist_help
+    )
 
     # Hue options
     hue_options = ['None', 'Weather', 'Weather (Detailed)', 'Day of Week']

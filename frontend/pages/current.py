@@ -1,3 +1,4 @@
+"""Show current/latest/recent data."""
 import streamlit as st
 from frontend.components import graph
 import matplotlib.colors as mcolors
@@ -71,31 +72,31 @@ with latest_tab:
     st.markdown("<div class='section-title'>☁️ Weather Overview</div>", unsafe_allow_html=True)
     col1, col2, col3, col4 = st.columns(4)
     col1.metric("Cloud (%)", f"{latest_df['cloud']:.2f}", f"{delta_df['cloud']:.2f}"
-                , border=True, help="OpenWeatherAPI")
+                , border=True, help="Cloudiness (%)")
     col2.metric("Total Rainfall (mm)", f"{latest_df['rain']:.2f}", f"{delta_df['rain']:.2f}"
-                , border=True, help="OpenWeatherAPI")
+                , border=True, help="Precipitation (where available) (mm/h)")
     col3.metric("Wind speed (m/s)", f"{latest_df['wind_spd']:.2f}", f"{delta_df['wind_spd']:.2f}"
-                , border=True, help="OpenWeatherAPI")
+                , border=True, help="Wind speed (m/s)")
     col4.metric("Weather condition", f"{latest_df['weather_main']}", f"{latest_df['weather_con']}",
-                delta_color="off", border=True, help="OpenWeatherAPI")
+                delta_color="off", border=True, help="Group of weather parameters (Rain, Snow, Clouds etc.)")
 
     col1, col2, col3 = st.columns(3)
     with col1:
         st.markdown("<div class='section-title'>💧 Environment</div>", unsafe_allow_html=True)
         st.metric("Humidity (%)", f"{latest_df['hum']:.2f}", f"{delta_df['hum']:.2f}"
-                  , border=True, help="KidBright")
+                  , border=True, help="Humidity (%)")
         st.metric("Light (lux)", f"{latest_df['light']:.2f}", f"{delta_df['light']:.2f}"
-                  , border=True, help="KidBright")
+                  , border=True, help="Light (Lux)")
         st.metric("Air Quality Index", f"{latest_df['aqi']:.2f}", f"{delta_df['aqi']:.2f}"
-                  , border=True, help="KidBright")
+                  , border=True, help="Air Quality Index")
     with col2:
         st.markdown("<div class='section-title'>🌡️ Temperature</div>", unsafe_allow_html=True)
         st.metric("Average temperature (°C)", f"{latest_df['temp']:.2f}", f"{delta_df['temp']:.2f}"
-                  , border=True, help="KidBright")
+                  , border=True, help="Temperature (C°)")
         st.metric("Minimum temperature (°C)", f"{latest_df['min_temp']:.2f}", f"{delta_df['min_temp']:.2f}"
-                  , border=True, help="KidBright")
+                  , border=True, help="Minimum Temperature (C°)")
         st.metric("Maximum temperature (°C)", f"{latest_df['max_temp']:.2f}", f"{delta_df['max_temp']:.2f}"
-                  , border=True, help="KidBright")
+                  , border=True, help="Maximum Temperature (C°)")
     with col3:
         if latest_df['weather_main'] == "Rain":
             st.image("pic/rain.jpg", use_container_width=True)
@@ -106,37 +107,37 @@ with latest_tab:
     with col1:
         st.markdown("<div class='section-title'>🌀 PM: Atmospheric</div>", unsafe_allow_html=True)
         st.metric("PM 1.0 (µg/m³)", f"{latest_df['pm1_0_atm']:.2f}", f"{delta_df['pm1_0_atm']:.2f}"
-                  , border=True, help="KidBright")
+                  , border=True, help="PM 1.0 concentration μ g/m3 (atmospheric environment)")
         st.metric("PM 2.5 (µg/m³)", f"{latest_df['pm2_5_atm']:.2f}", f"{delta_df['pm2_5_atm']:.2f}"
-                  , border=True, help="KidBright")
+                  , border=True, help="PM 2.5 concentration μ g/m3 (atmospheric environment)")
         st.metric("PM 10.0 (µg/m³)", f"{latest_df['pm10_0_atm']:.2f}", f"{delta_df['pm10_0_atm']:.2f}"
-                  , border=True, help="KidBright")
+                  , border=True, help="PM 10.0 concentration μ g/m3 (atmospheric environment)")
     with col2:
         st.markdown("<div class='section-title'>🏭 PM: Factory Sensor</div>", unsafe_allow_html=True)
         st.metric("PM 1.0 (µg/m³)", f"{latest_df['pm1_0']:.2f}³", f"{delta_df['pm1_0']:.2f}"
-                  , border=True, help="KidBright")
+                  , border=True, help="PM 1.0 concentration μ g/m3 (factory environment)")
         st.metric("PM 2.5 (µg/m³)", f"{latest_df['pm2_5']:.2f}", f"{delta_df['pm2_5']:.2f}"
-                  , border=True, help="KidBright")
+                  , border=True, help="PM 2.5 concentration μ g/m3 (factory environment)")
         st.metric("PM 10.0 (µg/m³)", f"{latest_df['pm10_0']:.2f}", f"{delta_df['pm10_0']:.2f}"
-                  , border=True, help="KidBright")
+                  , border=True, help="PM 10.0 concentration μ g/m3 (factory environment)")
 
     st.markdown("<div class='section-title'>🧪 Particle Count</div>", unsafe_allow_html=True)
     col1, col2, col3 = st.columns(3)
     with col1:
         st.metric("Particles > 0.3 μm", f"{latest_df['pcnt_0_3']:.2f}", f"{delta_df['pcnt_0_3']:.2f}"
-                  , border=True, help="KidBright")
+                  , border=True, help="Particle count of diameter beyond 0.3 um in 0.1 liter or air")
         st.metric("Particles > 0.5 μm", f"{latest_df['pcnt_0_5']:.2f}", f"{delta_df['pcnt_0_5']:.2f}"
-                  , border=True, help="KidBright")
+                  , border=True, help="Particle count of diameter beyond 0.5 um in 0.1 liter or air")
     with col2:
         st.metric("Particles > 1.0 μm", f"{latest_df['pcnt_1_0']:.2f}", f"{delta_df['pcnt_1_0']:.2f}"
-                  , border=True, help="KidBright")
+                  , border=True, help="Particle count of diameter beyond 1.0 um in 0.1 liter or air")
         st.metric("Particles > 2.5 μm", f"{latest_df['pcnt_2_5']:.2f}", f"{delta_df['pcnt_2_5']:.2f}"
-                  , border=True, help="KidBright")
+                  , border=True, help="Particle count of diameter beyond 2.5 um in 0.1 liter or air")
     with col3:
         st.metric("Particles > 5 μm", f"{latest_df['pcnt_5_0']:.2f}", f"{delta_df['pcnt_5_0']:.2f}"
-                  , border=True, help="KidBright")
+                  , border=True, help="Particle count of diameter beyond 5.0 um in 0.1 liter or air")
         st.metric("Particles > 10 μm", f"{latest_df['pcnt_10_0']:.2f}", f"{delta_df['pcnt_10_0']:.2f}"
-                  , border=True, help="KidBright")
+                  , border=True, help="Particle count of diameter beyond 10.0 um in 0.1 liter or air")
 
 with today_tab:
     st.markdown("<div class='section-title'>📊 Today's Descriptive Statistics</div>", unsafe_allow_html=True)
