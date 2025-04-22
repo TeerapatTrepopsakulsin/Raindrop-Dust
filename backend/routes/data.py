@@ -13,14 +13,15 @@ router = APIRouter(
 )
 
 
-@router.get("/latest", response_model=list[schemas.HourlyResponse], response_description="Get the latest collected data with the given limit.")
-async def get_latest_data(limit:int=1, db: Session = Depends(get_db)):
+@router.get("/latest", response_model=list[schemas.HourlyResponse])
+async def get_latest_data(limit: int = 1, db: Session = Depends(get_db)):
     data = crud.get_hourly(db, limit=limit)
     return data
 
 
 @router.get("", response_model=list[schemas.HourlyResponse])
-async def get_data(start_date: str | None = None, end_date: str | None = None, skip:int=0, limit:int=1, db:Session=Depends(get_db)):
+async def get_data(start_date: str | None = None, end_date: str | None = None, skip: int = 0, limit: int = 1,
+                   db: Session = Depends(get_db)):
     """ Return records response of the data, sorting from the latest record.
 
     :param start_date: yyyy-MM-dd, indicate the beginning of the period/interval (Inclusive)
@@ -34,19 +35,22 @@ async def get_data(start_date: str | None = None, end_date: str | None = None, s
 
 
 @router.get("/pm", response_model=list[schemas.PMResponse])
-async def get_pm(start_date: str | None = None, end_date: str | None = None, skip:int=0, limit:int=1, db:Session=Depends(get_db)):
+async def get_pm(start_date: str | None = None, end_date: str | None = None, skip: int = 0, limit: int = 1,
+                 db: Session = Depends(get_db)):
     data = crud.get_hourly(db, start_date=start_date, end_date=end_date, skip=skip, limit=limit)
     return data
 
 
 @router.get("/aqi", response_model=list[schemas.AQIResponse])
-async def get_aqi(start_date: str | None = None, end_date: str | None = None, skip:int=0, limit:int=1, db:Session=Depends(get_db)):
+async def get_aqi(start_date: str | None = None, end_date: str | None = None, skip: int = 0, limit: int = 1,
+                  db: Session = Depends(get_db)):
     data = crud.get_hourly(db, start_date=start_date, end_date=end_date, skip=skip, limit=limit)
     return data
 
 
 @router.get("/particle", response_model=list[schemas.ParticlesResponse])
-async def get_particle(start_date: str | None = None, end_date: str | None = None, skip:int=0, limit:int=1, db:Session=Depends(get_db)):
+async def get_particle(start_date: str | None = None, end_date: str | None = None, skip: int = 0, limit: int = 1,
+                       db: Session = Depends(get_db)):
     data = crud.get_hourly(db, start_date=start_date, end_date=end_date, skip=skip, limit=limit)
     return data
 

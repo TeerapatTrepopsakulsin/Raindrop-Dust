@@ -7,37 +7,37 @@ from .utils import schematise_hourly_response
 from datetime import datetime, timedelta
 
 
-def get_raw_primary(db: Session, limit:int=-1, sort:int=0):
+def get_raw_primary(db: Session, limit: int = -1, sort: int = 0):
     query = db.query(KidBright)
     try:
         query = query.order_by(KidBright.ts.desc()) if sort == 1 else query
         query = query.limit(limit) if limit != -1 else query
-    except Exception:
+    except:
         raise HTTPException(status_code=400, detail="Invalid params")
     return query.all()
 
 
-def get_raw_secondary(db: Session, limit:int=-1, sort:int=0):
+def get_raw_secondary(db: Session, limit: int = -1, sort: int = 0):
     query = db.query(Weather)
     try:
         query = query.order_by(Weather.ts.desc()) if sort == 1 else query
         query = query.limit(limit) if limit != -1 else query
-    except Exception:
+    except:
         raise HTTPException(status_code=400, detail="Invalid params")
     return query.all()
 
 
-def get_raw_hourly(db: Session, limit:int=-1, sort:int=0):
+def get_raw_hourly(db: Session, limit: int = -1, sort: int = 0):
     query = db.query(Hourly)
     try:
         query = query.order_by(Hourly.ts.desc()) if sort == 1 else query
         query = query.limit(limit) if limit != -1 else query
-    except Exception:
+    except:
         raise HTTPException(status_code=400, detail="Invalid params")
     return query.all()
 
 
-def get_hourly(db: Session, start_date=None, end_date=None, skip:int=0, limit:int=1):
+def get_hourly(db: Session, start_date=None, end_date=None, skip: int = 0, limit: int = 1):
     query = db.query(Hourly)
     try:
         query = query.filter(Hourly.ts >= start_date) if start_date else query
@@ -184,10 +184,10 @@ def get_summary(db: Session, start_date=None, end_date=None, period=None, date=N
 
     return [
         {
-        "start_time": TimeStamp(timestamp=date),
-        "end_time": TimeStamp(timestamp=end_time),
-        "average": l_ave[0],
-        "max": l_max[0],
-        "min": l_min[0]
+            "start_time": TimeStamp(timestamp=date),
+            "end_time": TimeStamp(timestamp=end_time),
+            "average": l_ave[0],
+            "max": l_max[0],
+            "min": l_min[0]
         }
     ]

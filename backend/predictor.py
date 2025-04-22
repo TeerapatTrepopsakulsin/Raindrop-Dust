@@ -65,6 +65,7 @@ def handle_outliers_iqr(df, column):
     df = df[(df[column] >= lower_bound) & (df[column] <= upper_bound)]
     return df
 
+
 # Primary Preprocessing
 pmr_df = handle_outliers_iqr(pmr_df, 'pm2_5_atm')
 pmr_df = handle_outliers_iqr(pmr_df, 'pm10_0_atm')
@@ -83,8 +84,10 @@ snd_df.drop('id', axis=1, inplace=True)
 snd_df['bin_ts'] = snd_df['ts'].dt.to_period('h')
 snd_df.drop('ts', axis=1, inplace=True)
 
+
 def get_mode(series):
     return series.mode().iloc[0] if not series.mode().empty else np.nan
+
 
 grouped = snd_df.groupby('bin_ts')
 numeric_cols = snd_df.select_dtypes(include='number').columns
@@ -101,23 +104,27 @@ df[binary_cols] = df[binary_cols].astype(int)
 
 # Feature Engineering
 
+
 # Lagged Features
 def get_lagged_data(x, t: np.timedelta64, f: str):
     """ Get the lagged data of the specify delayed timedelta and feature."""
     target = x['ts'] - t
-    target_df = df[df['ts']==target]
+    target_df = df[df['ts'] == target]
     return target_df[f].values[0] if len(target_df) > 0 else np.nan
+
 
 for col in ['pm2_5_atm', 'pm10_0_atm', 'aqi']:
     for i in [1, 3, 6, 12, 24, 72]:
         df[f'{col}_lag{i}h'] = df.apply(lambda x: get_lagged_data(x, np.timedelta64(i, 'h'), col), axis=1)
 
+
 # Lead Features
 def get_lead_data(x, t: np.timedelta64, f: str):
     """ Get the lead data of the specify lead timedelta and feature."""
     target = x['ts'] + t
-    target_df = df[df['ts']==target]
+    target_df = df[df['ts'] == target]
     return target_df[f].values[0] if len(target_df) > 0 else np.nan
+
 
 for col in ['pm2_5_atm', 'pm10_0_atm', 'aqi']:
     for i in [1, 3]:
@@ -227,11 +234,12 @@ target_features = ['pm2_5_atm_lead1d',
                    'aqi_lead1d',
                    'aqi_lead3d']
 
+
 def fit_model(init_df, model, target):
     # Preprocess Train
     df = init_df.copy()
     if 'ts' in df.columns:
-        ts = df.pop('ts')
+        df.pop('ts')
 
     df.dropna(inplace=True)
 
@@ -278,18 +286,20 @@ def fit_model(init_df, model, target):
 
 
 # See in Data Analytics Colab to see how the model are tuned and constructed
-svr_models= [
+svr_models = [
     {
         'target': 'pm2_5_atm_lead1d',
         'model': SVR(C=10, epsilon=0.01, gamma=0.01, kernel='linear'),
-        'fit_model': fit_model(orig_df, model=SVR(C=10, epsilon=0.01, gamma=0.01, kernel='linear'), target='pm2_5_atm_lead1d'),
+        'fit_model': fit_model(orig_df, model=SVR(C=10, epsilon=0.01, gamma=0.01, kernel='linear'),
+                               target='pm2_5_atm_lead1d'),
         'mse': 0.8452607265532294,
         'r2': 0.9950464669582851
     },
     {
         'target': 'pm2_5_atm_lead3d',
         'model': SVR(C=1, epsilon=0.01, gamma=0.01, kernel='linear'),
-        'fit_model': fit_model(orig_df, model=SVR(C=1, epsilon=0.01, gamma=0.01, kernel='linear'), target='pm2_5_atm_lead3d'),
+        'fit_model': fit_model(orig_df, model=SVR(C=1, epsilon=0.01, gamma=0.01, kernel='linear'),
+                               target='pm2_5_atm_lead3d'),
         'mse': 0.7589291448394546,
         'r2': 0.9945369556449393
         },
@@ -331,10 +341,12 @@ svr_models= [
 
 df = orig_df.copy()
 
+
 def get_model(target: str):
     for model in svr_models:
         if model.get('target') == target:
             return model.get('fit_model')
+
 
 class Predictor:
     PM25OneDay = get_model("pm2_5_atm_lead1d")
