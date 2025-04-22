@@ -12,6 +12,7 @@ pm2_5_weather_main = px.pie(
     values='mean',
     title=pie_title("Weather Condition", "PM 2.5"),
     color_discrete_sequence=px.colors.sequential.Rainbow,
+    labels={'weather_main': 'Weather Condition'}
 )
 
 
@@ -21,6 +22,7 @@ pm2_5_weather_con = px.pie(
     values='mean',
     title=pie_title("Weather Condition", "PM 2.5"),
     color_discrete_sequence=px.colors.sequential.Rainbow,
+    labels={'weather_con': 'Weather Condition'}
 )
 
 
@@ -30,4 +32,5 @@ pm2_5_day_of_week = px.pie(
     values='mean',
     title=pie_title("Day of Week", "PM 2.5"),
     color_discrete_sequence=px.colors.sequential.Rainbow,
+    labels={'day_of_week': 'Day of Week'}
 )
