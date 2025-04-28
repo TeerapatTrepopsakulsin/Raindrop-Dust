@@ -27,10 +27,10 @@ api = st.text_input(
 try:
     response = get_api_res(api)
 except Exception as e:
-    st.error('🚫 Invalid API Path')
+    st.error('🚫 This feature is unavailable')
 else:
     if response.status_code == 200:
         data = response.json()
         st.json(data, expanded=True)
     else:
-        st.error('🚫 Invalid API Path')
+        st.error('🚫 This feature is unavailable')
